@@ -1,4 +1,4 @@
-package lib;
+package cmj;
 
 import java.util.Scanner;
 
@@ -361,6 +361,78 @@ public class FlojerasDependency {
     public static void rellenarArray(Object[] arr){
         for(int i = 0; i < arr.length; i++){
             arr[i] = new Object();
+        }
+    }
+    
+    //Generación de datos típicos de personas
+    //Devolver nombres y apellidos al azar
+    public static String devolverNombre(){
+        return String.valueOf(Nombres.values()[(int) (Math.random()*Nombres.values().length)]);
+    }
+    public static String devolverApellido(){
+        return String.valueOf(Apellidos.values()[(int) (Math.random()*Apellidos.values().length)]);
+    }
+    //Devolver sexo al azar
+    public static char devolverSexo(){
+        int random = randomInt(0, 1);
+        if(random == 0) return 'H';
+        else return 'M';
+    }
+    //Generar DNI y comprobrar que es válido
+    public static String generaDNI(){
+        String dni = "" + (int) (Math.random()*89999999 + 10000000);
+        
+        int suma = 0;
+        char letra = ' ';
+        
+        for(int i = 0; i < dni.length(); i++){
+            suma += dni.charAt(i);
+        }
+        
+        suma %= 23;
+        
+        switch(suma){
+            case 0 -> letra = 'T';
+            case 1 -> letra = 'R';
+            case 2 -> letra = 'W';
+            case 3 -> letra = 'A';
+            case 4 -> letra = 'G';
+            case 5 -> letra = 'M';
+            case 6 -> letra = 'Y';
+            case 7 -> letra = 'F';
+            case 8 -> letra = 'P';
+            case 9 -> letra = 'D';
+            case 10 -> letra = 'X';
+            case 11 -> letra = 'B';
+            case 12 -> letra = 'N';
+            case 13 -> letra = 'J';
+            case 14 -> letra = 'Z';
+            case 15 -> letra = 'S';
+            case 16 -> letra = 'Q';
+            case 17 -> letra = 'V';
+            case 18 -> letra = 'H';
+            case 19 -> letra = 'L';
+            case 20 -> letra = 'C';
+            case 21 -> letra = 'K';
+            case 22 -> letra = 'E';
+        }
+        
+        dni += letra;
+        
+        return dni;
+    }
+    public static boolean comprobarDNI(String dni){
+        if(dni.length() == 9){
+            String listaN = "0123456789";
+            int len = dni.length();
+            for(int i = 0; i < len - 1; i++){
+                if(!listaN.contains("" + dni.charAt(i))) return false;
+            }
+
+            char ultima = dni.charAt(len - 1);
+            return ultima >= 'A' && ultima <= 'Z';
+        }else{
+            return false;
         }
     }
 }
