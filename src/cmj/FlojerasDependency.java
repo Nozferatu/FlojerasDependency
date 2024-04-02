@@ -184,7 +184,7 @@ public class FlojerasDependency {
      */
     public static char pedirLetra(boolean devolverMayus){
         Scanner sc = new Scanner(System.in);
-        char c = '@';
+        char c = '@'; //Valor basura porque sí
         
         do{
             try {
@@ -221,7 +221,16 @@ public class FlojerasDependency {
      * @return Número entero al azar entre un mínmo y máximo proporcionado
      */
     public static int randomInt(int min, int max){
-        return (int) (Math.random() * max) + min;
+        return (int) (Math.random() * (max - min)) + min;
+    }
+    public static int[] randomIntArr(int min, int max, int cantidad){
+        int[] arr = new int[cantidad];
+        
+        for(int i = 0; i < arr.length; i++){
+            arr[i] = randomInt(min, max);
+        }
+        
+        return arr;
     }
     /**
      *
@@ -230,7 +239,29 @@ public class FlojerasDependency {
      * @return Número con decimales al azar entre un mínmo y máximo proporcionado
      */
     public static double randomDouble(float min, float max){
-        return (Math.random() * max) + min;
+        return (Math.random() * (max - min)) + min;
+    }
+    public static char randomChar(boolean mayus){
+        char c;
+        
+        if(mayus) c = (char) randomInt('A', 'Z');
+        else c = (char) randomInt('a', 'z');
+        
+        return c;
+    }
+    public static boolean randomBoolean(){
+        int random = randomInt(0, 1);
+        
+        return random == 0;
+    }
+    public static double[] randomDoubleArr(int min, int max, int cantidad){
+        double[] arr = new double[cantidad];
+        
+        for(int i = 0; i < arr.length; i++){
+            arr[i] = randomInt(min, max);
+        }
+        
+        return arr;
     }
     public static double truncar(double num, int decimales){
         int dec = elevar(10, decimales);
@@ -367,10 +398,10 @@ public class FlojerasDependency {
     //Generación de datos típicos de personas
     //Devolver nombres y apellidos al azar
     public static String devolverNombre(){
-        return String.valueOf(Nombres.values()[(int) (Math.random()*Nombres.values().length)]);
+        return String.valueOf(Nombres.values()[randomInt(0,  Nombres.values().length)]);
     }
     public static String devolverApellido(){
-        return String.valueOf(Apellidos.values()[(int) (Math.random()*Apellidos.values().length)]);
+        return String.valueOf(Apellidos.values()[randomInt(0,  Apellidos.values().length)]);
     }
     //Devolver sexo al azar
     public static char devolverSexo(){
