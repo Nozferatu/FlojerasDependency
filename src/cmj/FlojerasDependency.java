@@ -9,9 +9,6 @@ import java.util.Scanner;
 */
 
 //Sugerencias anotadas
-//Ordenar alfabéticamente y ordenar números
-//Desplazar números x posiciones
-//Eliminar duplicados
 
 /**
  *
@@ -117,6 +114,8 @@ public class FlojerasDependency {
             }
         }
         
+        sc.close();
+        
         return x;
     }
     /**
@@ -146,6 +145,8 @@ public class FlojerasDependency {
                 e.printStackTrace();
             }
         }
+        
+        sc.close();
         
         return x;
     }
@@ -177,13 +178,15 @@ public class FlojerasDependency {
             }
         }
         
+        sc.close();
+        
         return x;
     }
     /**
-     * Pide un char al usuario. Si la opción de devolverMayus es verdadera, devolverá el char
-     * en mayúscula. En caso contrario, lo devolverá en minúscula.
+     * Pide una letra al usuario. Si la opción de devolverMayus es verdadera, devolverá la letra
+     * en mayúscula. En caso contrario, la devolverá en minúscula.
      * @param devolverMayus
-     * @return
+     * @return char
      */
     public static char pedirLetra(boolean devolverMayus){
         Scanner sc = new Scanner(System.in);
@@ -201,10 +204,17 @@ public class FlojerasDependency {
             }
         }while(c < 'A' || c > 'z');
         
+        sc.close();
+        
         return c;
     }
     
     //MÉTODOS MATEMÁTICOS
+    /**
+     * Devuelve los divisores de un número proporcionado.
+     * @param num
+     * @return int[]
+     */
     public static int[] devolverDivisores(int num){
         int cant = 0;
         
@@ -226,31 +236,64 @@ public class FlojerasDependency {
         
         return divisores;
     }
-
     /**
-     * Devuelve un booleano indicando si un número proporcionado es capicúa o no. [NO FUNCIONA]
+     * Devuelve un booleano indicando si un número proporcionado es capicúa o no.
      * @param num
-     * @return
+     * @return boolean (True/False)
      */
     public static boolean esCapicua(int num){
-        int aux1, aux2;
+        int palindromo = num;
+        int reves = 0;
         
-        aux1 = num % (num / 10) * 10;
-        aux2 = (num / 10) % (num / 100);
-
-        return aux1 + aux2 == num / 100;
+        while(palindromo != 0){
+            int resto = palindromo % 10;
+            reves = reves * 10 + resto;
+            palindromo /= 10;
+        }
+        
+        return num == reves;
     }
     /**
      * Devuelve un número x elevado a un exponente y. Es el Math.pow(), pero sin nombres raros.
      * @param base
      * @param exp
-     * @return Número elevado al exponente proporcionado
+     * @return int
      */
-    public static int elevar(int base, int exp){
-        return (int) Math.pow(base, exp);
+    public static double elevar(int base, int exp){
+        return Math.pow(base, exp);
     }
+    /**
+     * Hace la raíz cuadrada de un número proporcionado. Si el número es negativo y no se hace cast
+     * a int, se devolverá un NaN (número imaginario).
+     * @param a
+     * @return double
+     */
     public static double raizCuadrada(int a){
         return Math.sqrt(a);
+    }
+    /**
+     * Devuelve un booleano indicando si el número proporcionado es desgarrable o no. Se considera que
+     * un número es desgarrable si al dividirlo en dos partes (izquierda y derecha), el cuadrado de la
+     * suma de ambas partes es igual al número original.<br>
+     * Ejemplo: 88209 = (88 + 209)<sup>2</sup>
+     * @param num
+     * @return boolean (True/False)
+     */
+    public static boolean esDesgarrable(int num){
+        String numStr = "" + num;
+        int longitud = numStr.length();
+        String izda = "", dcha = "";
+        
+        for(int i = 0; i < longitud % 2 + 1; i++){
+            izda += numStr.charAt(i);
+        }
+        for(int i = longitud / 2; i < longitud; i++){
+            dcha += numStr.charAt(i);
+        }
+        
+        int comprobacion = (int) Math.pow((Integer.valueOf(izda) + Integer.valueOf(dcha)), 2);
+        
+        return num == comprobacion;
     }
     /**
      * Devuelve un número entero al azar entre un mínmo y máximo proporcionado
@@ -274,7 +317,7 @@ public class FlojerasDependency {
      * Devuelve un número con decimales al azar entre un mínmo y máximo proporcionado
      * @param max
      * @param min
-     * @return Double
+     * @return double
      */
     public static double randomDouble(float min, float max){
         return (Math.random() * (max - min + 1)) + min;
@@ -292,7 +335,7 @@ public class FlojerasDependency {
      * Devuelve una letra (char) al azar. Si la opción de mayus es true, devolverá la letra en mayúscula.
      * En caso contrario, será minúscula.
      * @param mayus
-     * @return Letra al azar del abecedario
+     * @return char
      */
     public static char randomChar(boolean mayus){
         char c;
@@ -304,48 +347,72 @@ public class FlojerasDependency {
     }
     /**
      * Devuelve al azar o verdadero o falso
-     * @return Booleano (True/False)
+     * @return boolean (True/False)
      */
     public static boolean randomBoolean(){
         int random = randomInt(0, 1);
         
         return random == 0;
     }
+    /**
+     * Trunca un número con decimales al número de decimales especificado.
+     * @param num
+     * @param decimales
+     * @return
+     */
     public static double truncar(double num, int decimales){
-        int dec = elevar(10, decimales);
+        int dec = (int) elevar(10, decimales);
         double truncado = (int) (num * dec);
         return truncado /= dec;
     }
+    /**
+     * Se realiza la ecuación de segundo grado de los números proporcionados a, b y c. Si la ecuación
+     * no tiene ninguna solución, se lanzará un mensaje indicándolo.
+     * @param a
+     * @param b
+     * @param c
+     */
     public static void ecuacionSegundoGrado(int a, int b, int c){
         double[] soluciones = new double[2];
-            double parteRaiz = Math.sqrt(Math.pow(b, 2) - (4*a*c));
-            soluciones[0] = (-b + parteRaiz) / (2*a);
-            soluciones[1] = (-b - parteRaiz) / (2*a);
-            print("a = " + a + " b = " + b + " c = " + c);
-            print("Solución 1 = " + soluciones[0]);
-            print("Solución 2 = " + soluciones[1]);
+        double parteRaiz = Math.sqrt(Math.pow(b, 2) - (4*a*c));
+        soluciones[0] = (-b + parteRaiz) / (2*a);
+        soluciones[1] = (-b - parteRaiz) / (2*a);
+            
+        System.out.println("a = " + a + " b = " + b + " c = " + c);
+            
+        if(Double.isNaN(soluciones[0]) && Double.isNaN(soluciones[1])){
+            System.out.println("La ecuación no tiene solución.");
+        }else{
+            int cont = 1;
+            if(!Double.isNaN(soluciones[0])) {
+                System.out.println("Solución " + cont + " = " + soluciones[0]);
+                cont++;
+            }
+            if(!Double.isNaN(soluciones[1]))
+                System.out.println("Solución " + cont + " = " + soluciones[1]);
+            }
     }
     
     //MÉTODOS DE ITERACIÓN (principalmente para solo ver el contenido)
     //Recorrer array
     public static void recorrerArray(int[] arr){
         for(int i = 0; i < arr.length; i++){
-            print(arr[i]);
+            System.out.println(arr[i]);
         }
     }
     public static void recorrerArray(float[] arr){
         for(int i = 0; i < arr.length; i++){
-            print(arr[i]);
+            System.out.println(arr[i]);
         }
     }
     public static void recorrerArray(double[] arr){
         for(int i = 0; i < arr.length; i++){
-            print(arr[i]);
+            System.out.println(arr[i]);
         }
     }
     public static void recorrerArray(boolean[] arr){
         for(int i = 0; i < arr.length; i++){
-            print(arr[i]);
+            System.out.println(arr[i]);
         }
     }
     /**
@@ -355,12 +422,12 @@ public class FlojerasDependency {
      */
     public static void recorrerArray(Object[] arr){
         for(int i = 0; i < arr.length; i++){
-            print(arr[i]);
+            System.out.println(arr[i]);
         }
     }
     public static void recorrerArray(String[] arr){
         for(int i = 0; i < arr.length; i++){
-            print(arr[i]);
+            System.out.println(arr[i]);
         }
     }
     
@@ -368,28 +435,28 @@ public class FlojerasDependency {
     public static void recorrerMatriz(int[][] maiz){
         for(int i = 0; i < maiz.length; i++){
             for(int j = 0; j < maiz[i].length; j++){
-                print(maiz[i][j]);
+                System.out.println(maiz[i][j]);
             }
         }
     }
     public static void recorrerMatriz(float[][] maiz){
         for(int i = 0; i < maiz.length; i++){
             for(int j = 0; j < maiz[i].length; j++){
-                print(maiz[i][j]);
+                System.out.println(maiz[i][j]);
             }
         }
     }
     public static void recorrerMatriz(double[][] maiz){
         for(int i = 0; i < maiz.length; i++){
             for(int j = 0; j < maiz[i].length; j++){
-                print(maiz[i][j]);
+                System.out.println(maiz[i][j]);
             }
         }
     }
     public static void recorrerMatriz(boolean[][] maiz){
         for(int i = 0; i < maiz.length; i++){
             for(int j = 0; j < maiz[i].length; j++){
-                print(maiz[i][j]);
+                System.out.println(maiz[i][j]);
             }
         }
     }
@@ -401,14 +468,14 @@ public class FlojerasDependency {
     public static void recorrerMatriz(Object[][] maiz){
         for(int i = 0; i < maiz.length; i++){
             for(int j = 0; j < maiz[i].length; j++){
-                print(maiz[i][j]);
+                System.out.println(maiz[i][j]);
             }
         }
     }
     public static void recorrerMatriz(String[][] maiz){
         for(int i = 0; i < maiz.length; i++){
             for(int j = 0; j < maiz[i].length; j++){
-                print(maiz[i][j]);
+                System.out.println(maiz[i][j]);
             }
         }
     }
@@ -489,8 +556,25 @@ public class FlojerasDependency {
         return arrRotado;
     }
     /**
+     * Ordena alfabéticamente un array de cadenas de texto (String).
+     * @param arr
+     */
+    public static void ordenarArrayAlfabeticamente(String[] arr){
+        int longitud = arr.length;
+        
+        for(int i = 0; i<longitud; i++){
+            for(int j = i+1; j<longitud; j++){
+                if(arr[i].compareTo(arr[j])>0){
+                    String aux = arr[i];
+                    arr[i] = arr[j];
+                    arr[j] = aux;
+                }
+            }
+        }
+    }
+    /**
      * Macacha los valores de un array (original) con los proporcionados (reemplazo). La longitud del original
-     * debe ser igual o mayor a la del reemplazo. En caso contrario, el método lanzará una excepción.
+     * debe ser igual o mayor a la del reemplazo. En caso contrario, el método lanzará un mensaje de error.
      * @param original
      * @param reemplazo
      */
@@ -501,7 +585,6 @@ public class FlojerasDependency {
             System.out.println(TEXTO_ROJO + "El array original tiene una longitud menor a la del que lo va a reemplazar.");
         }
     }
-
     /**
      * Elimina los elementos duplicados de un array de enteros.
      * @param arr
@@ -544,7 +627,6 @@ public class FlojerasDependency {
         
         return letra;
     }
-    //Generar DNI y comprobrar que es válido
     /**
      * Genera un DNI de forma aleatoria
      * @return String
