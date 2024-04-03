@@ -9,7 +9,9 @@ import java.util.Scanner;
 */
 
 //Sugerencias anotadas
-//
+//Ordenar alfabéticamente y ordenar números
+//Desplazar números x posiciones
+//Eliminar duplicados
 
 /**
  *
@@ -221,7 +223,7 @@ public class FlojerasDependency {
      * @return Número entero al azar entre un mínmo y máximo proporcionado
      */
     public static int randomInt(int min, int max){
-        return (int) (Math.random() * (max - min)) + min;
+        return (int) (Math.random() * (max - min + 1)) + min;
     }
     public static int[] randomIntArr(int min, int max, int cantidad){
         int[] arr = new int[cantidad];
@@ -239,7 +241,7 @@ public class FlojerasDependency {
      * @return Número con decimales al azar entre un mínmo y máximo proporcionado
      */
     public static double randomDouble(float min, float max){
-        return (Math.random() * (max - min)) + min;
+        return (Math.random() * (max - min + 1)) + min;
     }
     public static char randomChar(boolean mayus){
         char c;
