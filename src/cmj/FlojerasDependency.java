@@ -21,6 +21,7 @@ import java.util.Scanner;
 public class FlojerasDependency {
     //Atributos varios
     public static final String RESET_COLORES = "\u001B[0m";
+    
     //Colores para el texto de la consola
     public static final String TEXTO_NEGRO = "\u001B[30m";
     public static final String TEXTO_ROJO = "\u001B[31m";
@@ -87,7 +88,7 @@ public class FlojerasDependency {
         System.out.println(colorTexto + colorFondo + msg);
     }
     
-    //Métodos de input
+    //MÉTODOS DE INPUT
     /**
      * Pide un número entero al usuario. Si la opción de positivo es verdadera, el usuario tendrá que introducir
      * de forma obligatoria un número positivo
@@ -203,7 +204,42 @@ public class FlojerasDependency {
         return c;
     }
     
-    //Métodos matemáticos
+    //MÉTODOS MATEMÁTICOS
+    public static int[] devolverDivisores(int num){
+        int cant = 0;
+        
+        for(int i = num; i > 0; i--){
+            if(num % i == 0){
+                cant++;
+            }
+        }
+        
+        int[] divisores = new int[cant];
+        int contador = 0;
+        
+        for(int i = num; i > 0; i--){
+            if(num % i == 0){
+                divisores[contador] = i;
+                contador++;
+            }
+        }
+        
+        return divisores;
+    }
+
+    /**
+     * Devuelve un booleano indicando si un número proporcionado es capicúa o no. [NO FUNCIONA]
+     * @param num
+     * @return
+     */
+    public static boolean esCapicua(int num){
+        int aux1, aux2;
+        
+        aux1 = num % (num / 10) * 10;
+        aux2 = (num / 10) % (num / 100);
+
+        return aux1 + aux2 == num / 100;
+    }
     /**
      * Devuelve un número x elevado a un exponente y. Es el Math.pow(), pero sin nombres raros.
      * @param base
@@ -217,10 +253,10 @@ public class FlojerasDependency {
         return Math.sqrt(a);
     }
     /**
-     *
+     * Devuelve un número entero al azar entre un mínmo y máximo proporcionado
      * @param max
      * @param min
-     * @return Número entero al azar entre un mínmo y máximo proporcionado
+     * @return Int
      */
     public static int randomInt(int min, int max){
         return (int) (Math.random() * (max - min + 1)) + min;
@@ -235,26 +271,13 @@ public class FlojerasDependency {
         return arr;
     }
     /**
-     *
+     * Devuelve un número con decimales al azar entre un mínmo y máximo proporcionado
      * @param max
      * @param min
-     * @return Número con decimales al azar entre un mínmo y máximo proporcionado
+     * @return Double
      */
     public static double randomDouble(float min, float max){
         return (Math.random() * (max - min + 1)) + min;
-    }
-    public static char randomChar(boolean mayus){
-        char c;
-        
-        if(mayus) c = (char) randomInt('A', 'Z');
-        else c = (char) randomInt('a', 'z');
-        
-        return c;
-    }
-    public static boolean randomBoolean(){
-        int random = randomInt(0, 1);
-        
-        return random == 0;
     }
     public static double[] randomDoubleArr(int min, int max, int cantidad){
         double[] arr = new double[cantidad];
@@ -264,6 +287,29 @@ public class FlojerasDependency {
         }
         
         return arr;
+    }
+    /**
+     * Devuelve una letra (char) al azar. Si la opción de mayus es true, devolverá la letra en mayúscula.
+     * En caso contrario, será minúscula.
+     * @param mayus
+     * @return Letra al azar del abecedario
+     */
+    public static char randomChar(boolean mayus){
+        char c;
+        
+        if(mayus) c = (char) randomInt('A', 'Z');
+        else c = (char) randomInt('a', 'z');
+        
+        return c;
+    }
+    /**
+     * Devuelve al azar o verdadero o falso
+     * @return Booleano (True/False)
+     */
+    public static boolean randomBoolean(){
+        int random = randomInt(0, 1);
+        
+        return random == 0;
     }
     public static double truncar(double num, int decimales){
         int dec = elevar(10, decimales);
@@ -280,7 +326,7 @@ public class FlojerasDependency {
             print("Solución 2 = " + soluciones[1]);
     }
     
-    //Métodos de iteración (principalmente para solo ver el contenido)
+    //MÉTODOS DE ITERACIÓN (principalmente para solo ver el contenido)
     //Recorrer array
     public static void recorrerArray(int[] arr){
         for(int i = 0; i < arr.length; i++){
@@ -367,7 +413,7 @@ public class FlojerasDependency {
         }
     }
     
-    //Relleno de datos al azar
+    //RELLENO DE DATOS AL AZAR
     //Relleno de arrays
     public static void rellenarArray(int[] arr, int min, int max){
         for(int i = 0; i < arr.length; i++){
@@ -397,7 +443,85 @@ public class FlojerasDependency {
         }
     }
     
-    //Generación de datos típicos de personas
+    //MÉTODOS DE MODIFICACIÓN
+    /**
+     * Ordena de forma ascendente un array de enteros.
+     * @param arr
+     * @return
+     */
+    public static int[] ordenarArrayAsc(int[] arr){
+        int longitud = arr.length;
+        int ordenada[] = new int[longitud];
+        int aux;
+        
+        for(int i = 0; i < longitud; i++){
+            for(int j = i; j < longitud; j++){
+                if(arr[i] > arr[j]){
+                    aux = arr[i];
+                    arr[i] = arr[j];
+                    arr[j] = aux;
+                }
+            }
+            
+            ordenada[i] = arr[i];
+        }
+        
+        return ordenada;
+    }
+    /**
+     * Rota un número de posiciones x (pos) un array de enteros.
+     * @param arr
+     * @param pos
+     * @return
+     */
+    public static int[] rotarArray(int[] arr, int pos){
+        int longitud = arr.length;
+        int[] arrRotado = new int[longitud];
+        
+        for(int i = 0; i < longitud; i++){
+            if(i < pos){
+                arrRotado[i] = arr[longitud+i-pos];
+            }else{
+                arrRotado[i] = arr[i-pos];
+            }
+        }
+        
+        return arrRotado;
+    }
+    /**
+     * Macacha los valores de un array (original) con los proporcionados (reemplazo). La longitud del original
+     * debe ser igual o mayor a la del reemplazo. En caso contrario, el método lanzará una excepción.
+     * @param original
+     * @param reemplazo
+     */
+    public static void sustituirArray(int[] original, int[] reemplazo){
+        if(original.length >= reemplazo.length){
+            System.arraycopy(reemplazo, 0, original, 0, reemplazo.length);
+        }else{
+            System.out.println(TEXTO_ROJO + "El array original tiene una longitud menor a la del que lo va a reemplazar.");
+        }
+    }
+
+    /**
+     * Elimina los elementos duplicados de un array de enteros.
+     * @param arr
+     */
+    public static void eliminarDuplicados(int[] arr){
+        int longitud = arr.length;
+        int dupes = 0;
+        
+        for(int i = 0; i < longitud; i++){
+            if(arr[i] == arr[i+1]){
+                dupes++;
+            }
+        }
+        
+        int[] aux = new int[longitud - dupes];
+        
+        sustituirArray(arr, aux);
+    }
+    
+    //GENERACIÓN DE DATOS TÍPICOS DE PERSONAS
     //Devolver nombres y apellidos al azar
     public static String devolverNombre(){
         return String.valueOf(Nombres.values()[randomInt(0,  Nombres.values().length)]);
@@ -411,59 +535,64 @@ public class FlojerasDependency {
         if(random == 0) return 'H';
         else return 'M';
     }
+    //Método auxiliar para devolver la letra correspondiente de un DNI
+    private static char letraDNI(int dni){
+        char[] lista = {'T', 'R', 'W', 'A', 'G', 'M', 'Y', 'F', 'P', 'D', 'X', 'B', 'N', 'J', 'Z', 'S', 'Q', 'V', 'H', 'L', 'C', 'K', 'E'};
+        int resto = dni % 23;
+        
+        char letra = lista[resto];
+        
+        return letra;
+    }
     //Generar DNI y comprobrar que es válido
+    /**
+     * Genera un DNI de forma aleatoria
+     * @return String
+     */
     public static String generaDNI(){
         String dni = "" + (int) (Math.random()*89999999 + 10000000);
         
-        int suma = 0;
         char letra = ' ';
         
-        for(int i = 0; i < dni.length(); i++){
-            suma += dni.charAt(i);
-        }
-        
-        suma %= 23;
-        
-        switch(suma){
-            case 0 -> letra = 'T';
-            case 1 -> letra = 'R';
-            case 2 -> letra = 'W';
-            case 3 -> letra = 'A';
-            case 4 -> letra = 'G';
-            case 5 -> letra = 'M';
-            case 6 -> letra = 'Y';
-            case 7 -> letra = 'F';
-            case 8 -> letra = 'P';
-            case 9 -> letra = 'D';
-            case 10 -> letra = 'X';
-            case 11 -> letra = 'B';
-            case 12 -> letra = 'N';
-            case 13 -> letra = 'J';
-            case 14 -> letra = 'Z';
-            case 15 -> letra = 'S';
-            case 16 -> letra = 'Q';
-            case 17 -> letra = 'V';
-            case 18 -> letra = 'H';
-            case 19 -> letra = 'L';
-            case 20 -> letra = 'C';
-            case 21 -> letra = 'K';
-            case 22 -> letra = 'E';
-        }
+        letra = letraDNI(Integer.parseInt(dni));
         
         dni += letra;
         
         return dni;
     }
+    /**
+     * Comprueba si el DNI proporcionado es válido. Un DNI es válido si tiene una longitud de 9 caracteres,
+     * los 8 primeros son números, y la letra es la correspondiente. Para determinar la letra, se hace el
+     * módulo del número de 8 cifras del DNI entre 23. Dependiendo del resto, se asigna una letra. <br><br>
+     * <table border="1">
+     * <tr>
+     * <th>RESTO</th>
+       <td>0</td> <td>1</td> <td>2</td> <td>3</td> <td>4</td> <td>5</td> <td>6</td> <td>7</td> <td>8</td> <td>9</td> <td>10</td>
+       <td>11</td> <td>12</td> <td>13</td> <td>14</td> <td>15</td> <td>16</td> <td>17</td> <td>18</td> <td>19</td> <td>20</td>
+       <td>21</td> <td>22</td>
+     * </tr>
+     * <tr>
+     * <th>LETRA</th>
+     * <td>T</td> <td>R</td> <td>W</td> <td>A</td> <td>G</td> <td>M</td> <td>Y</td> <td>F</td> <td>P</td> <td>D</td> <td>X</td>
+       <td>B</td> <td>N</td> <td>J</td> <td>Z</td> <td>S</td> <td>Q</td> <td>V</td> <td>H</td> <td>L</td> <td>C</td>
+       <td>K</td> <td>E</td>
+     * </tr>
+     * </table>
+     * @param dni
+     * @return True/False
+     */
     public static boolean comprobarDNI(String dni){
         if(dni.length() == 9){
             String listaN = "0123456789";
             int len = dni.length();
+            
             for(int i = 0; i < len - 1; i++){
                 if(!listaN.contains("" + dni.charAt(i))) return false;
             }
-
+            
             char ultima = dni.charAt(len - 1);
-            return ultima >= 'A' && ultima <= 'Z';
+            String nDNI = dni.substring(0, 8);
+            return ultima == letraDNI(Integer.parseInt(nDNI));
         }else{
             return false;
         }
