@@ -3,3 +3,19 @@
 Ésta es una librería de Java que me he hecho a modo de facilitarme la vida a la hora de programar, aparte de aportar algo a gente que todavía le cueste Java.
 
 Para poder utilizar la librería, hay que importar el archivo JAR al proyecto, y al tenerlo ya importado, se pueden usar las utilidades que ofrece. La principal viene siendo FlojerasUtility, la cual se debe de extender de esta para poder utilizarla. También se puede crear un objeto de la misma, pero es más aparatoso de usar después.
+
+FLOJERAS UTILITY
+Es una clase que incorpora métodos a modo de atajos, bien siendo el print() a modo de reemplazar el System.out.println(), el recorrerArray() y recorrerMatriz() para no tener que crear los bucles para ver el contenido, y varias cosas más, entre ellas:
+
+- Métodos matemáticos
+  - esCapicua() -> Te comprueba si un número es capicúa o no.
+  - devolverDivisores() -> Te devuelve en una lista los divisores de un número.
+  - ecuacionSegundoGrado() -> Te muestra las soluciones de una ecuación de segundo grado en caso de que las tenga. Sino, te lo notificará.
+- Métodos de modificación
+  - rotarArray() -> Te rota un array las posiciones que tú le indiques.
+  - ordenarArrayAlfabeticamente -> Creo que el nombre ya lo dice todo.
+  - sustituirArray() -> Reemplaza los valores de un array por los de otro.
+- Generación de datos típicos de personas
+  - devolverNombre() -> Devuelve un nombre al azar de una lista de nombres del propio paquete
+  - devolverApellido() -> Lo mismo que devolverNombre, pero devuelve un apellido.
+  - comprobarDNI -> Comprueba si el DNI proporcionado es válido o no.
