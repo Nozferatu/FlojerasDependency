@@ -392,30 +392,7 @@ public class FlojerasUtility {
                 System.out.println("Solución " + cont + " = " + soluciones[1]);
             }
     }
-    /*
-    public static double[] ecuacionSegundoGradoNuevo(int a, int b, int c){
-        double[] aux = new double[2]; //Array temporal para almacenar las posibles soluciones
-        double parteRaiz = Math.sqrt(Math.pow(b, 2) - (4*a*c));
-        aux[0] = (-b + parteRaiz) / (2*a);
-        aux[1] = (-b - parteRaiz) / (2*a);
-            
-        System.out.println("a = " + a + " b = " + b + " c = " + c);
-            
-        if(Double.isNaN(aux[0]) && Double.isNaN(aux[1])){
-            System.out.println("La ecuación no tiene solución.");
-            return null;
-        }else{
-            int cont = 0;
-            if(!Double.isNaN(aux[0])) cont++;
-            if(!Double.isNaN(aux[1])) cont++;
-            double[] soluciones = new double[cont];
-
-            System.arraycopy(aux, 0, soluciones, 0, aux.length);
-            
-            return soluciones;
-        }
-    }
-    */
+    
     //MÉTODOS DE ITERACIÓN (principalmente para solo ver el contenido)
     //Recorrer array
     public static void recorrerArray(int[] arr){
