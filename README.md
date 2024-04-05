@@ -23,6 +23,6 @@ Es una clase que incorpora métodos a modo de atajos, bien siendo el print() a m
 <h2>FAQ</h2>
 
 - ¿Cómo se añade la librería a mi proyecto?
-  - En el proyecto en el que estés trabajando, te vas a Propiedaes > Librerías > Classpath > Añadir JAR/Carpeta. Lo recomendable es depositar el JAR dentro de la carpeta principal del proyecto, así podrás trabajar en cualquier ordenador sin problemas.
+  - En el proyecto en el que estés trabajando, te vas a Propiedades > Librerías > Classpath > Añadir JAR/Carpeta. Lo recomendable es depositar el JAR dentro de la carpeta principal del proyecto, así podrás trabajar en cualquier ordenador sin problemas.
 - No aparece el javadoc
-  - El javadoc se ha de incluir aparte en la configuración de la librería. Viene en una carpeta dentro del zip junto al JAR.
+  - El javadoc se ha de incluir aparte en la configuración de la librería. Viene en un zip junto al JAR.
