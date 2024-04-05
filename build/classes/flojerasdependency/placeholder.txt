@@ -1,0 +1,3 @@
+Se han arreglado los siguientes fallos:
+- Los métodos de recorrerArray() y recorrerMatriz() sólo permitían tipo Object
+- El javadoc no se mostraba de forma correcta. Se ha añadido un apartado de FAQ en el README para explicar cómo añadirlo
