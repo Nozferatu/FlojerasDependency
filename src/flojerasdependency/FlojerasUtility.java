@@ -63,47 +63,18 @@ public class FlojerasUtility {
     }
     
     //MÉTODOS DE INPUT
-    //Posible nuevo método para pedir números
-    public static double pedirNumero(boolean positivo, Class<?> tipoDato){
+    /**
+     * Pide al usuario una cadena de texto.
+     * @return String
+     */
+    public static String pedirTexto(){
         Scanner sc = new Scanner(System.in);
-        double x = 0;
-        boolean valido = false;
         
-        while(true){
-            try {
-                if(tipoDato == int.class) {
-                    x = sc.nextInt();
-                    valido = true;
-                }
-                else if(tipoDato == float.class) {
-                    x = sc.nextFloat();
-                    valido = true;
-                }
-                else if(tipoDato == double.class) {
-                    x = sc.nextDouble();
-                    valido = true;
-                }
-                else System.out.println("Se ha pasado un tipo de dato incorrecto");
-
-                if(valido){
-                    if(positivo){
-                        if(x < 0){
-                            System.out.println("El número debe de ser positivo");
-                        }else{
-                            break;
-                        }
-                    }else{
-                        break;
-                    }
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
+        String respuesta = sc.nextLine();
         
         sc.close();
         
-        return x;
+        return respuesta;
     }
     /**
      * Pide un número entero al usuario. Si la opción de positivo es verdadera, el usuario tendrá que introducir
@@ -422,6 +393,7 @@ public class FlojerasUtility {
             }
     }
     
+    //Posible rework
     public static double[] ecuacionSegundoGradoNuevo(int a, int b, int c){
         double[] aux = new double[2]; //Array temporal para almacenar las posibles soluciones
         double parteRaiz = Math.sqrt(Math.pow(b, 2) - (4*a*c));
@@ -435,11 +407,8 @@ public class FlojerasUtility {
             return null;
         }else{
             int cont = 0;
-            if(!Double.isNaN(aux[0])) {
-                cont++;
-            }
-            if(!Double.isNaN(aux[1]))
-                cont++;
+            if(!Double.isNaN(aux[0])) cont++;
+            if(!Double.isNaN(aux[1])) cont++;
             double[] soluciones = new double[cont];
 
             System.arraycopy(aux, 0, soluciones, 0, aux.length);
@@ -509,6 +478,27 @@ public class FlojerasUtility {
                 System.out.println(maiz[i][j]);
             }
         }
+    }
+    
+    //Devolver espacios restantes
+    public static int[] devolverEspaciosRestantes(Object[] arr){
+        int espacios = 0;
+        
+        for(Object o : arr){
+            if(o == null) espacios++;
+        }
+        
+        int[] indices = new int[espacios];
+        espacios = 0; //Reusar variable en vez de crear otra
+        for(int i = 0; i < arr.length; i++){
+            if(arr[i] == null) {
+                indices[espacios] = i;
+                espacios++;
+            }
+            
+        }
+        
+        return indices;
     }
     
     //RELLENO DE DATOS AL AZAR
@@ -611,7 +601,7 @@ public class FlojerasUtility {
         if(original.length >= reemplazo.length){
             System.arraycopy(reemplazo, 0, original, 0, reemplazo.length);
         }else{
-            System.out.println(TEXTO_ROJO + "El array original tiene una longitud menor a la del que lo va a reemplazar.");
+            System.out.println(TEXTO_ROJO + "El array original tiene una longitud menor a la del que lo va a reemplazar." + RESET_COLORES);
         }
     }
     /**
