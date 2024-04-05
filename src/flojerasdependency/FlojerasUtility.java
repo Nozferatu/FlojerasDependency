@@ -63,7 +63,6 @@ public class FlojerasUtility {
     }
     
     //MÉTODOS DE INPUT
-
     /**
      * Pide al usuario una cadena de texto.
      * @return String
@@ -393,7 +392,7 @@ public class FlojerasUtility {
                 System.out.println("Solución " + cont + " = " + soluciones[1]);
             }
     }
-    
+    /*
     public static double[] ecuacionSegundoGradoNuevo(int a, int b, int c){
         double[] aux = new double[2]; //Array temporal para almacenar las posibles soluciones
         double parteRaiz = Math.sqrt(Math.pow(b, 2) - (4*a*c));
@@ -416,7 +415,7 @@ public class FlojerasUtility {
             return soluciones;
         }
     }
-    
+    */
     //MÉTODOS DE ITERACIÓN (principalmente para solo ver el contenido)
     //Recorrer array
     public static void recorrerArray(int[] arr){
