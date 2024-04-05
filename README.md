@@ -1,11 +1,9 @@
 # FlojerasDependency, una librería para dominarlos a todos
 
-Ésta es una librería de Java que me he hecho a modo de facilitarme la vida a la hora de programar, aparte de aportar algo a gente que todavía le cueste Java.
-
-Para poder utilizar la librería, hay que importar el archivo JAR al proyecto, y al tenerlo ya importado, se pueden usar las utilidades que ofrece. La principal viene siendo FlojerasUtility, la cual se debe de extender de esta para poder utilizarla. También se puede crear un objeto de la misma, pero es más aparatoso de usar después.
+Ésta es una librería de Java que me he hecho a modo de facilitarme la vida a la hora de programar, aparte de aportar algo a gente que todavía le cueste Java. 
 
 <br>
-FLOJERAS UTILITY
+<h2>FLOJERAS UTILITY</h2>
 
 Es una clase que incorpora métodos a modo de atajos, bien siendo el print() a modo de reemplazar el System.out.println(), el recorrerArray() y recorrerMatriz() para no tener que crear los bucles para ver el contenido, y varias cosas más. Entre ellas:
 
@@ -21,3 +19,10 @@ Es una clase que incorpora métodos a modo de atajos, bien siendo el print() a m
   - devolverNombre() -> Devuelve un nombre al azar de una lista de nombres del propio paquete
   - devolverApellido() -> Lo mismo que devolverNombre, pero devuelve un apellido.
   - comprobarDNI -> Comprueba si el DNI proporcionado es válido o no.
+
+<h2>FAQ</h2>
+
+- ¿Cómo se añade la librería a mi proyecto?
+  - En el proyecto en el que estés trabajando, te vas a Propiedaes > Librerías > Classpath > Añadir JAR/Carpeta. Lo recomendable es depositar el JAR dentro de la carpeta principal del proyecto, así podrás trabajar en cualquier ordenador sin problemas.
+- No aparece el javadoc
+  - El javadoc se ha de incluir aparte en la configuración de la librería. Viene en una carpeta dentro del zip junto al JAR.
