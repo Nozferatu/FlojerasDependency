@@ -444,6 +444,83 @@ public class FlojerasUtility {
             }
         }
     }
+    /**
+     * Devuelve en un array los índices vacíos de un array.
+     * @param arr Array de enteros
+     * @return int[] (indices)
+     */
+    public static int[] devolverEspaciosRestantes(int[] arr){
+        int espacios = 0;
+        
+        for(Object o : arr){
+            if(o == null) espacios++;
+        }
+        
+        int[] indices = new int[espacios];
+        espacios = 0; //Reusar variable en vez de crear otra
+        for(int i = 0; i < arr.length; i++){
+            if(arr[i] == 0) {
+                indices[espacios] = i;
+                espacios++;
+            }
+            
+        }
+        
+        return indices;
+    }
+    /**
+     * Devuelve en un array los índices vacíos de un array.
+     * @param arr Array de float
+     * @return int[] (indices)
+     */
+    public static int[] devolverEspaciosRestantes(float[] arr){
+        int espacios = 0;
+        
+        for(Object o : arr){
+            if(o == null) espacios++;
+        }
+        
+        int[] indices = new int[espacios];
+        espacios = 0; //Reusar variable en vez de crear otra
+        for(int i = 0; i < arr.length; i++){
+            if(arr[i] == 0) {
+                indices[espacios] = i;
+                espacios++;
+            }
+            
+        }
+        
+        return indices;
+    }
+    /**
+     * Devuelve en un array los índices vacíos de un array.
+     * @param arr Array de double
+     * @return int[] (indices)
+     */
+    public static int[] devolverEspaciosRestantes(double[] arr){
+        int espacios = 0;
+        
+        for(Object o : arr){
+            if(o == null) espacios++;
+        }
+        
+        int[] indices = new int[espacios];
+        espacios = 0; //Reusar variable en vez de crear otra
+        for(int i = 0; i < arr.length; i++){
+            if(arr[i] == 0) {
+                indices[espacios] = i;
+                espacios++;
+            }
+            
+        }
+        
+        return indices;
+    }
+    /**
+     * Devuelve en un array los índices vacíos de un array.
+     * @param arr Array de objetos
+     * @return int[] (indices)
+     */
     public static int[] devolverEspaciosRestantes(Object[] arr){
         int espacios = 0;
         
@@ -463,6 +540,53 @@ public class FlojerasUtility {
         
         return indices;
     }
+    /**
+     * Devuelve el número de espacios ocupados de un array.
+     * @param arr Array
+     * @return int
+     */
+    public static int devolverNumEspaciosOcupados(int[] arr){
+        int espacios = 0;
+        
+        for(int o : arr){
+            if(o != 0) espacios++;
+        }
+        
+        return espacios;
+    }
+    /**
+     * Devuelve el número de espacios ocupados de un array.
+     * @param arr Array
+     * @return int
+     */
+    public static int devolverNumEspaciosOcupados(float[] arr){
+        int espacios = 0;
+        
+        for(float o : arr){
+            if(o != 0) espacios++;
+        }
+        
+        return espacios;
+    }
+    /**
+     * Devuelve el número de espacios ocupados de un array.
+     * @param arr Array
+     * @return int
+     */
+    public static int devolverNumEspaciosOcupados(double[] arr){
+        int espacios = 0;
+        
+        for(double o : arr){
+            if(o != 0) espacios++;
+        }
+        
+        return espacios;
+    }
+    /**
+     * Devuelve el número de espacios ocupados de un array.
+     * @param arr Array
+     * @return int
+     */
     public static int devolverNumEspaciosOcupados(Object[] arr){
         int espacios = 0;
         
@@ -472,6 +596,83 @@ public class FlojerasUtility {
         
         return espacios;
     }
+    /**
+     * Devuelve en un array los índices ocupados de un array.
+     * @param arr Array
+     * @return int[] (índices)
+     */
+    public static int[] devolverEspaciosOcupados(int[] arr){
+        int espacios = 0;
+        
+        for(Object o : arr){
+            if(o != null) espacios++;
+        }
+        
+        int[] indices = new int[espacios];
+        espacios = 0; //Reusar variable en vez de crear otra
+        for(int i = 0; i < arr.length; i++){
+            if(arr[i] != 0) {
+                indices[espacios] = i;
+                espacios++;
+            }
+            
+        }
+        
+        return indices;
+    }
+    /**
+     * Devuelve en un array los índices ocupados de un array.
+     * @param arr Array
+     * @return int[] (índices)
+     */
+    public static int[] devolverEspaciosOcupados(float[] arr){
+        int espacios = 0;
+        
+        for(Object o : arr){
+            if(o != null) espacios++;
+        }
+        
+        int[] indices = new int[espacios];
+        espacios = 0; //Reusar variable en vez de crear otra
+        for(int i = 0; i < arr.length; i++){
+            if(arr[i] != 0) {
+                indices[espacios] = i;
+                espacios++;
+            }
+            
+        }
+        
+        return indices;
+    }
+    /**
+     * Devuelve en un array los índices ocupados de un array.
+     * @param arr Array
+     * @return int[] (índices)
+     */
+    public static int[] devolverEspaciosOcupados(double[] arr){
+        int espacios = 0;
+        
+        for(Object o : arr){
+            if(o != null) espacios++;
+        }
+        
+        int[] indices = new int[espacios];
+        espacios = 0; //Reusar variable en vez de crear otra
+        for(int i = 0; i < arr.length; i++){
+            if(arr[i] != 0) {
+                indices[espacios] = i;
+                espacios++;
+            }
+            
+        }
+        
+        return indices;
+    }
+    /**
+     * Devuelve en un array los índices ocupados de un array.
+     * @param arr Array
+     * @return int[] (índices)
+     */
     public static int[] devolverEspaciosOcupados(Object[] arr){
         int espacios = 0;
         
@@ -613,6 +814,11 @@ public class FlojerasUtility {
         
         sustituirArray(arr, aux);
     }
+    /**
+     * Defragmenta el array de tipo primitivo pasado en el método. Defragmentar consiste en quitar todos los espacios nulos entre medias de un array,
+     * similar al defragmentado de un disco duro. Los tipos soportados son int, float y double.
+     * @param arr Array de tipo primitivo
+     */
     public static void defragmentarArray(Object arr){
         if(arr instanceof int[]){
             int[] arrInt = (int[]) arr;
@@ -655,6 +861,11 @@ public class FlojerasUtility {
             System.arraycopy(defArr, 0, arr, 0, len);
         }
     }
+    /**
+     * Defragmenta el array pasado en el método. Defragmentar consiste en quitar todos los espacios nulos entre medias de un array,
+     * similar al defragmentado de un disco duro.
+     * @param arr Array de tipo Object
+     */
     public static void defragmentarArray(Object[] arr){
         int len = arr.length;
         Object[] defArr = new Object[len];
