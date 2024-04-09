@@ -27,7 +27,7 @@ Es una clase que incorpora métodos a modo de atajos, bien siendo el print() a m
 - No aparece el javadoc
   - El javadoc se ha de incluir aparte en la configuración de la librería. Viene en un zip junto al JAR.
 
-<h3>FlojerasClassGeneratorAssistant</h3>
+<h2>FLOJERAS CLASS GENERATOR ASSISTANT</h2>
 
 Es una nueva clase que te permite crear clases de Java mediante un asistente sencillo.
 Para poder usarlo, se ha de crear una instancia de la clase, y llamar al método iniciar().
