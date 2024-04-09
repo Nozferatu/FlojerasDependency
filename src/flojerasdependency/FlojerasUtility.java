@@ -382,8 +382,8 @@ public class FlojerasUtility {
         }
     }
     
-    //MÉTODOS DE ITERACIÓN (principalmente para solo ver el contenido)
-    //Recorrer array
+    //MÉTODOS DE ITERACIÓN
+    //Recorrer array (para solo ver el contenido)
     public static void recorrerArray(int[] arr){
         for (Object n : arr) {
             System.out.println(n);
