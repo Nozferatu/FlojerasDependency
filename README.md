@@ -26,3 +26,9 @@ Es una clase que incorpora métodos a modo de atajos, bien siendo el print() a m
   - En el proyecto en el que estés trabajando, te vas a Propiedades > Librerías > Classpath > Añadir JAR/Carpeta. Lo recomendable es depositar el JAR dentro de la carpeta principal del proyecto, así podrás trabajar en cualquier ordenador sin problemas.
 - No aparece el javadoc
   - El javadoc se ha de incluir aparte en la configuración de la librería. Viene en un zip junto al JAR.
+
+<h3>FlojerasClassGeneratorAssistant</h3>
+
+Es una nueva clase que te permite crear clases de Java mediante un asistente sencillo.
+Para poder usarlo, se ha de crear una instancia de la clase, y llamar al método iniciar().
+Permite establecer el nombre de la clase, y añadir atributos, además de poder modificar estos parámetros cuando el usuario quiera.
