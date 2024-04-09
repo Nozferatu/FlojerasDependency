@@ -29,6 +29,6 @@ Es una clase que incorpora métodos a modo de atajos, bien siendo el print() a m
 
 <h2>FLOJERAS CLASS GENERATOR ASSISTANT</h2>
 
-Es una nueva clase que te permite crear clases de Java mediante un asistente sencillo.
+Es una clase que te permite crear clases de Java mediante un asistente sencillo.
 Para poder usarlo, se ha de crear una instancia de la clase, y llamar al método iniciar().
 Permite establecer el nombre de la clase, y añadir atributos, además de poder modificar estos parámetros cuando el usuario quiera.
