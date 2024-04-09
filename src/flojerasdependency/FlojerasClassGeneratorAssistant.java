@@ -94,6 +94,7 @@ public class FlojerasClassGeneratorAssistant extends FlojerasUtility{
     
     public void iniciar(){
         int opcion;
+        boolean terminado = false;
         
         //Variables para almacenar los datos de la clase
         String nombre = "TextoDeEjemplo";
@@ -103,11 +104,11 @@ public class FlojerasClassGeneratorAssistant extends FlojerasUtility{
         do{
             System.out.println("\nElija una opción:");
             System.out.println("[1] Declarar nombre clase [2] Introducir atributo [3] Modificar atributo");
-            System.out.println("[4] Generar clase");
+            System.out.println("[4] Generar clase [5] Detener");
             
             do{
                 opcion = pedirInt(false);
-            }while(opcion < 1 || opcion > 4);
+            }while(opcion < 1 || opcion > 5);
             
             switch(opcion){
                 case 1:
@@ -194,12 +195,17 @@ public class FlojerasClassGeneratorAssistant extends FlojerasUtility{
                             output.close();
                             System.out.println(TEXTO_VERDE + "Archivo generado con éxito." + RESET_COLORES);
                         }else{
-                            System.out.println("El archivo ya existe");
+                            System.out.println(TEXTO_ROJO + "El archivo ya existe" + RESET_COLORES);
                         }
                     } catch (IOException ex) {
                         System.out.println(TEXTO_ROJO + "Ha ocurrido un error." + RESET_COLORES);
                     }
+                    break;
+                case 5:
+                    terminado = true;
             }
-        }while(true);
+        }while(!terminado);
+        
+        System.out.println(TEXTO_VERDE + "Fin de la ejecución." + RESET_COLORES);
     }
 }
