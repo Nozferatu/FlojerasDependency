@@ -28,6 +28,12 @@ Para poder usarlo, se ha de crear una instancia de la clase, y llamar al método
 Permite establecer el nombre de la clase, y añadir atributos, además de poder modificar estos parámetros cuando el usuario quiera.
 
 
+<h2>FLOJERAS PASSWORD GENERATOR</h2>
+
+Es una clase que genera contraseñas de forma aleatoria según la pida el usuario. Se permite especificar la longitud, si quiere mayúsculas, números y símbolos.
+Para poder usarlo, se ha de extender de esta clase, o bien se puede crear un objeto.
+
+
 <h2>FAQ</h2>
 
 - ¿Cómo se añade la librería a mi proyecto?
