@@ -96,7 +96,7 @@ public class FlojerasUtility {
                     break;
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+                e.printStackTrace(System.out);
             }
         }
         
@@ -126,7 +126,7 @@ public class FlojerasUtility {
                     break;
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+                e.printStackTrace(System.out);
             }
         }
         
@@ -156,7 +156,7 @@ public class FlojerasUtility {
                     break;
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+                e.printStackTrace(System.out);
             }
         }
         
@@ -180,7 +180,7 @@ public class FlojerasUtility {
                     c = sc.nextLine().toLowerCase().charAt(0);
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+                e.printStackTrace(System.out);
             }
         }while(c < 'A' || c > 'z');
         
@@ -399,6 +399,16 @@ public class FlojerasUtility {
             System.out.println(n);
         }
     }
+    public static void recorrerArray(char[] arr){
+        for (Object n : arr) {
+            System.out.println(n);
+        }
+    }
+    public static void recorrerArray(byte[] arr){
+        for (Object n : arr) {
+            System.out.println(n);
+        }
+    }
     /**
      * En el caso de los objetos, se supone que los objetos del array a recorrer, tienen un método toString,
      * para que en vez de que salga la dirección de memoria, salgan los datos del objeto almacenado.
@@ -412,23 +422,37 @@ public class FlojerasUtility {
     
     //Recorrer matrices
     public static void recorrerMatriz(int[][] maiz){
-        for(int i = 0; i < maiz.length; i++){
-            for(int j = 0; j < maiz[i].length; j++){
-                System.out.println(maiz[i][j]);
+        for (int[] fila : maiz) {
+            for (int j = 0; j < fila.length; j++) {
+                System.out.println(fila[j]);
             }
         }
     }
     public static void recorrerMatriz(double[][] maiz){
-        for(int i = 0; i < maiz.length; i++){
-            for(int j = 0; j < maiz[i].length; j++){
-                System.out.println(maiz[i][j]);
+        for (double[] fila : maiz) {
+            for (int j = 0; j < fila.length; j++) {
+                System.out.println(fila[j]);
             }
         }
     }
     public static void recorrerMatriz(float[][] maiz){
-        for(int i = 0; i < maiz.length; i++){
-            for(int j = 0; j < maiz[i].length; j++){
-                System.out.println(maiz[i][j]);
+        for (float[] fila : maiz) {
+            for (int j = 0; j < fila.length; j++) {
+                System.out.println(fila[j]);
+            }
+        }
+    }
+    public static void recorrerMatriz(char[][] maiz){
+        for (char[] fila : maiz) {
+            for (int j = 0; j < fila.length; j++) {
+                System.out.println(fila[j]);
+            }
+        }
+    }
+    public static void recorrerMatriz(byte[][] maiz){
+        for (byte[] fila : maiz) {
+            for (int j = 0; j < fila.length; j++) {
+                System.out.println(fila[j]);
             }
         }
     }
