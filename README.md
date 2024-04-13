@@ -20,6 +20,14 @@ Es una clase que incorpora métodos a modo de atajos, bien siendo el print() a m
   - devolverApellido() -> Lo mismo que devolverNombre, pero devuelve un apellido.
   - comprobarDNI -> Comprueba si el DNI proporcionado es válido o no.
 
+
+<h2>FLOJERAS CLASS GENERATOR ASSISTANT</h2>
+
+Es una clase que te permite crear clases de Java mediante un asistente sencillo.
+Para poder usarlo, se ha de crear una instancia de la clase, y llamar al método iniciar().
+Permite establecer el nombre de la clase, y añadir atributos, además de poder modificar estos parámetros cuando el usuario quiera.
+
+
 <h2>FAQ</h2>
 
 - ¿Cómo se añade la librería a mi proyecto?
