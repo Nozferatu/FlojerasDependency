@@ -1,12 +1,10 @@
 package flojerasdependency;
 
-import static flojerasdependency.FlojerasUtility.pedirLetra;
-import static flojerasdependency.FlojerasUtility.pedirTexto;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
-//FLOJERAS CLASS GENERATOR ASSISTANT V0.1
+//FLOJERAS CLASS GENERATOR ASSISTANT V0.2
 
 /**
  *
@@ -94,21 +92,24 @@ public class FlojerasClassGeneratorAssistant extends FlojerasUtility{
     
     public void iniciar(){
         int opcion;
+        boolean tieneToString = false;
         boolean terminado = false;
         
         //Variables para almacenar los datos de la clase
         String nombre = "TextoDeEjemplo";
         Atributo[] atributos = new Atributo[5];
         
-        System.out.println("//---- FLOJERAS CLASS GENERATOR ASSISTANT V0.1 ----//\n");
+        System.out.println("//---- FLOJERAS CLASS GENERATOR ASSISTANT V0.2 ----//\n");
         do{
             System.out.println("\nElija una opción:");
             System.out.println("[1] Declarar nombre clase [2] Introducir atributo [3] Modificar atributo");
-            System.out.println("[4] Generar clase [5] Detener");
+            if(!tieneToString) System.out.println("[4] Añadir método toString ");
+            else System.out.println("[4] Quitar método toString ");
+            System.out.print("[5] Generar clase [6] Detener\n");
             
             do{
                 opcion = pedirInt(false);
-            }while(opcion < 1 || opcion > 5);
+            }while(opcion < 1 || opcion > 6);
             
             switch(opcion){
                 case 1:
@@ -144,6 +145,9 @@ public class FlojerasClassGeneratorAssistant extends FlojerasUtility{
                     }while(true);
                     break;
                 case 4:
+                    tieneToString = !tieneToString;
+                    break;
+                case 5:
                     File clase = new File(nombre + ".java");
                     try {
                         if(clase.createNewFile()){
@@ -191,6 +195,20 @@ public class FlojerasClassGeneratorAssistant extends FlojerasUtility{
                                     output.write("\t\tthis." + aux + " = " + aux + ";\n\t}\n");
                                 }
                             }
+                            //toString
+                            if(tieneToString){
+                                output.write("\n\t@Override\n\tpublic String toString(){\n");
+                                output.write("\t\treturn \"" + nombre + "{\" + ");
+                                for(int i = 0; i < numAtr; i++){
+                                    aux = atributos[i].nombre;
+                                    if(i+1 != numAtr) output.write("\"");
+                                    output.write(aux + "=\" + " + aux);
+                                    if(i+1 != numAtr){
+                                        output.write( " + \", ");
+                                    }
+                                }
+                                output.write(" + '}';\n\t}\n");
+                            }
                             output.write("}"); //Final del archivo
                             output.close();
                             System.out.println(TEXTO_VERDE + "Archivo generado con éxito." + RESET_COLORES);
@@ -201,7 +219,7 @@ public class FlojerasClassGeneratorAssistant extends FlojerasUtility{
                         System.out.println(TEXTO_ROJO + "Ha ocurrido un error." + RESET_COLORES);
                     }
                     break;
-                case 5:
+                case 6:
                     terminado = true;
             }
         }while(!terminado);
