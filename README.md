@@ -33,7 +33,7 @@ Permite establecer el nombre de la clase, y añadir atributos, además de poder 
 Es una clase que genera contraseñas de forma aleatoria según la pida el usuario. Se permite especificar la longitud, si quiere mayúsculas, números y símbolos.
 Para poder usarlo, se ha de extender de esta clase, o bien se puede crear un objeto.
 
-<h2>AÑADIR LIBRERÍA AL PROYECTO</h2>
+<h2>CÓMO AÑADIR LA LIBRERÍA A TU PROYECTO</h2>
 
 Para añadir esta librería, hay dos formas:
 
