@@ -33,10 +33,31 @@ Permite establecer el nombre de la clase, y añadir atributos, además de poder 
 Es una clase que genera contraseñas de forma aleatoria según la pida el usuario. Se permite especificar la longitud, si quiere mayúsculas, números y símbolos.
 Para poder usarlo, se ha de extender de esta clase, o bien se puede crear un objeto.
 
+<h2>AÑADIR LIBRERÍA AL PROYECTO</h2>
+
+Para añadir esta librería, hay dos formas:
+
+- USANDO JITPACK
+  - Se puede importar en un proyecto Maven añadiendo lo siguiente al pom.xml:
+```
+    <repositories>
+		<repository>
+		    <id>jitpack.io</id>
+		    <url>https://jitpack.io</url>
+		</repository>
+	</repositories>
+```
+  - Después, en el tag de dependencies, se añade la librería:
+```
+  <dependency>
+	    <groupId>com.github.Nozferatu</groupId>
+	    <artifactId>FlojerasDependency</artifactId>
+	    <version>X.X.X</version>
+	</dependency>
+```
+- IMPORTANDO EL JAR
 
 <h2>FAQ</h2>
 
-- ¿Cómo se añade la librería a mi proyecto?
-  - En el proyecto en el que estés trabajando, te vas a Propiedades > Librerías > Classpath > Añadir JAR/Carpeta. Lo recomendable es depositar el JAR dentro de la carpeta principal del proyecto, así podrás trabajar en cualquier ordenador sin problemas.
 - No aparece el javadoc
   - El javadoc se ha de incluir aparte en la configuración de la librería. Viene en un zip junto al JAR.
