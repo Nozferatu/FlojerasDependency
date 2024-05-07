@@ -61,4 +61,5 @@ Para añadir esta librería, hay dos formas:
 
 - No aparece el javadoc
   - El javadoc se ha de incluir aparte en la configuración de la librería. Viene en un zip junto al JAR.
+
 [![](https://jitpack.io/v/Nozferatu/FlojerasDependency.svg)](https://jitpack.io/#Nozferatu/FlojerasDependency)
