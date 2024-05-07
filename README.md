@@ -40,20 +40,20 @@ Para añadir esta librería, hay dos formas:
 - USANDO JITPACK
   - Se puede importar en un proyecto Maven añadiendo lo siguiente al pom.xml:
 ```
-    <repositories>
-		<repository>
-		    <id>jitpack.io</id>
-		    <url>https://jitpack.io</url>
-		</repository>
-	</repositories>
+<repositories>
+	<repository>
+		<id>jitpack.io</id>
+		<url>https://jitpack.io</url>
+	</repository>
+</repositories>
 ```
   - Después, en el tag de dependencies, se añade la librería:
 ```
-  <dependency>
-	    <groupId>com.github.Nozferatu</groupId>
-	    <artifactId>FlojerasDependency</artifactId>
-	    <version>X.X.X</version>
-	</dependency>
+<dependency>
+	<groupId>com.github.Nozferatu</groupId>
+	<artifactId>FlojerasDependency</artifactId>
+	<version>X.X.X</version>
+</dependency>
 ```
 - IMPORTANDO EL JAR
 
