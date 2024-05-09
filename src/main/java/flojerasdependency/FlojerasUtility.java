@@ -1,6 +1,7 @@
 package flojerasdependency;
 
 import flojerasdependency.data.*;
+import java.util.Arrays;
 import java.util.Scanner;
 
 /*
@@ -19,7 +20,7 @@ import java.util.Scanner;
 public class FlojerasUtility {
     //Atributos varios
     public static final String RESET_COLORES = "\u001B[0m";
-    public static Scanner sc = new Scanner(System.in);
+    public static Scanner sc = new Scanner(System.in, "ISO-8859-2");
     
     //Colores para el texto de la consola
     public static final String TEXTO_NEGRO = "\u001B[30m";
@@ -824,22 +825,17 @@ public class FlojerasUtility {
         }
     }
     /**
-     * Elimina los elementos duplicados de un array de enteros.
+     * Elimina los elementos duplicados eliminados de un array de enteros. El array acabará con los valores 
+     * apareciendo una única vez, y las posiciones restantes, serán un 0.
      * @param arr Array
      */
     public static void eliminarDuplicados(int[] arr){
-        int longitud = arr.length;
-        int dupes = 0;
-        
-        for(int i = 0; i < longitud; i++){
-            if(arr[i] == arr[i+1]){
-                dupes++;
-            }
+        int[] arrMod = Arrays.stream(arr).distinct().toArray();
+        System.arraycopy(arrMod, 0, arr, 0, arrMod.length);
+        //Los valores basura se cambian a 0
+        for(int i = arrMod.length; i < arr.length; i++){
+            arr[i] = 0;
         }
-        
-        int[] aux = new int[longitud - dupes];
-        
-        sustituirArray(arr, aux);
     }
     /**
      * Defragmenta el array de tipo primitivo pasado en el método. Defragmentar consiste en quitar todos los espacios nulos entre medias de un array,

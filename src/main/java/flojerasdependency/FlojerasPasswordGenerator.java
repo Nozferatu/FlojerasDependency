@@ -1,7 +1,8 @@
 package flojerasdependency;
 
-//FLOJERAS PASSWORD GENERATOR V0.2
+//FLOJERAS PASSWORD GENERATOR V0.2.1
 
+import static flojerasdependency.FlojerasUtility.randomInt;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -10,7 +11,7 @@ import java.security.NoSuchAlgorithmException;
  *
  * @author Carlos Madrid
  */
-public class FlojerasPasswordGenerator extends FlojerasUtility{
+public class FlojerasPasswordGenerator {
     /**
      * Genera una contraseña de forma aleatoria según le especifique el usuario.
      * @param longitud Longitud
