@@ -38,7 +38,7 @@ Para poder usarlo, se ha de extender de esta clase, o bien se puede crear un obj
 Para añadir esta librería, hay dos formas:
 
 - USANDO JITPACK
-  - Se puede importar en un proyecto Maven añadiendo lo siguiente al pom.xml:
+  - Se puede importar en un proyecto Maven (o cualquier tecnología que tenga el archivo pom) añadiendo lo siguiente al pom.xml:
 ```
 <repositories>
 	<repository>
