@@ -30,8 +30,8 @@ Permite establecer el nombre de la clase, y añadir atributos, además de poder 
 
 <h2>FLOJERAS PASSWORD GENERATOR</h2>
 
-Es una clase que genera contraseñas de forma aleatoria según la pida el usuario. Se permite especificar la longitud, si quiere mayúsculas, números y símbolos.
-Para poder usarlo, se ha de extender de esta clase, o bien se puede crear un objeto.
+Es una clase que genera contraseñas de forma aleatoria según la pida el usuario, además de validar contraseñas. Se permite especificar la longitud, si quiere mayúsculas, números y símbolos.
+Para poder usarlo, se puede extender de esta clase, o bien se puede crear un objeto.
 
 <h2>CÓMO AÑADIR LA LIBRERÍA A TU PROYECTO</h2>
 
