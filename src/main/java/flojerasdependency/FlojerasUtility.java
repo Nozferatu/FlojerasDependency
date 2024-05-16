@@ -20,7 +20,7 @@ import java.util.Scanner;
 public class FlojerasUtility {
     //Atributos varios
     public static final String RESET_COLORES = "\u001B[0m";
-    public static Scanner sc = new Scanner(System.in, "ISO-8859-2");
+    public static Scanner sc = new Scanner(System.in, "UTF-8");
     
     //Colores para el texto de la consola
     public static final String TEXTO_NEGRO = "\u001B[30m";
@@ -42,16 +42,21 @@ public class FlojerasUtility {
     public static final String FONDO_CYAN = "\u001B[46m";
     public static final String FONDO_BLANCO = "\u001B[47m";
     
-    //Imprimir por consola
+    //MÉTODOS DE PRINT
     /**
      * Imprime por la terminal. No tiene mucho misterio.
      * @param o Mensaje
      */
     public static void print(Object o){
+        System.out.print(o);
+    }
+    /**
+     * Imprime por la terminal con un salto de línea al final. No tiene mucho misterio.
+     * @param o Mensaje
+     */
+    public static void println(Object o){
         System.out.println(o);
     }
-    
-    //Imprimir por consola con colores
     /**
      * Imprime por la terminal. Al contrario del print normal, éste permite los parámetros para añadir
      * el color del texto, y el del fondo. La librería incluye unas constantes con los valores necesarios
@@ -97,7 +102,7 @@ public class FlojerasUtility {
                     break;
                 }
             } catch (Exception e) {
-                e.printStackTrace(System.out);
+                System.out.println("No se ha introducido un número válido.");
                 sc.nextLine();
             }
         }
@@ -128,7 +133,7 @@ public class FlojerasUtility {
                     break;
                 }
             } catch (Exception e) {
-                e.printStackTrace(System.out);
+                System.out.println("No se ha introducido un número válido.");
                 sc.nextLine();
             }
         }
@@ -159,7 +164,7 @@ public class FlojerasUtility {
                     break;
                 }
             } catch (Exception e) {
-                e.printStackTrace(System.out);
+                System.out.println("No se ha introducido un número válido.");
                 sc.nextLine();
             }
         }
@@ -918,8 +923,13 @@ public class FlojerasUtility {
         if(random == 0) return 'H';
         else return 'M';
     }
-    //Método auxiliar para devolver la letra correspondiente de un DNI
-    private static char letraDNI(int dni){
+
+    /**
+     * Calcula la letra a partir del número de un DNI.
+     * @param dni DNI
+     * @return Char (Letra)
+     */
+    public static char calcularLetraDNI(int dni){
         char[] lista = {'T', 'R', 'W', 'A', 'G', 'M', 'Y', 'F', 'P', 'D', 'X', 'B', 'N', 'J', 'Z', 'S', 'Q', 'V', 'H', 'L', 'C', 'K', 'E'};
         int resto = dni % 23;
         
@@ -928,7 +938,7 @@ public class FlojerasUtility {
         return letra;
     }
     /**
-     * Genera un DNI de forma aleatoria
+     * Genera un DNI de forma aleatoria.
      * @return String
      */
     public static String generaDNI(){
@@ -936,7 +946,7 @@ public class FlojerasUtility {
         
         char letra = ' ';
         
-        letra = letraDNI(Integer.parseInt(dni));
+        letra = calcularLetraDNI(Integer.parseInt(dni));
         
         dni += letra;
         
@@ -975,7 +985,7 @@ public class FlojerasUtility {
             
             char ultima = dni.charAt(len - 1);
             String nDNI = dni.substring(0, 8);
-            return ultima == letraDNI(Integer.parseInt(nDNI));
+            return ultima == calcularLetraDNI(Integer.parseInt(nDNI));
         }else{
             return false;
         }
