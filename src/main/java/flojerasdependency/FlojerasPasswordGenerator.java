@@ -1,6 +1,6 @@
 package flojerasdependency;
 
-//FLOJERAS PASSWORD GENERATOR V0.2.1
+//FLOJERAS PASSWORD GENERATOR V0.2.5
 
 import static flojerasdependency.FlojerasUtility.randomInt;
 import java.nio.charset.StandardCharsets;
@@ -33,7 +33,6 @@ public class FlojerasPasswordGenerator {
         
         return passwd;
     }
-    
     /**
      * Cifra con el algoritmo SHA-256 la contraseña proporcionada. Dicho algoritmo es irreversible, haciendo que sea útil
      * a la hora de almacenar contraseñas de usuarios para una página web.
@@ -57,6 +56,60 @@ public class FlojerasPasswordGenerator {
         } catch (NoSuchAlgorithmException ex) {}
         
         return null;
+    }
+    /**
+     * Comprueba si la contraseña proporcionada tiene una longitud igual o mayor a la especificada. En caso de cumplir este
+     * requisito, devolverá verdadero. En caso contrario, falso.
+     * @param contrasena Contraseña
+     * @param longitudMin Longitud mínima
+     * @return boolean (True/False)
+     */
+    public boolean validarContrasena(String contrasena, int longitudMin){
+        return contrasena.length() >= longitudMin;
+    }
+    /**
+     * Comprueba si la contraseña proporcionada cumple los requisitos que especifique el usuario. Entre ellos son: longitud mínima, 
+     * mínimo una mayúscula y mínimo una minúscula. Los dos últimos parámetros son opcionales al ser booleanos.
+     * @param contrasena Contraseña
+     * @param longitudMin Longitud mínima
+     * @param requiereMayus Si requiere mayúscula
+     * @param requiereNumero Si requiere minúscula
+     * @return boolean (True/False)
+     */
+    public boolean validarContrasena(String contrasena, int longitudMin, boolean requiereMayus, boolean requiereNumero){
+        char c;
+        boolean valido;
+        boolean tieneMayus = false;
+        boolean tieneNumero = false;
+        
+        //Busca si tiene una mayúscula
+        if(requiereMayus){
+            for(int i = 0; i < contrasena.length(); i++){
+                c = contrasena.charAt(i);
+                if(Character.isUpperCase(c)){
+                    tieneMayus = true;
+                    break;
+                }
+            }
+        }else{
+            tieneMayus = true;
+        }
+        //Busca si tiene algún número
+        if(requiereNumero){
+            for(int i = 0; i < contrasena.length(); i++){
+                c = contrasena.charAt(i);
+                if(Character.isDigit(c)){
+                    tieneNumero = true;
+                    break;
+                }
+            }
+        }else{
+            tieneNumero = true;
+        }
+        //Validación
+        valido = tieneMayus && tieneNumero && (contrasena.length() >= longitudMin);
+        
+        return valido;
     }
     
     private static String introducirMinusculas(){
