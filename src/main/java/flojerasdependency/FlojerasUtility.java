@@ -20,7 +20,7 @@ import java.util.Scanner;
 public class FlojerasUtility {
     //Atributos varios
     public static final String RESET_COLORES = "\u001B[0m";
-    public static Scanner sc = new Scanner(System.in, "UTF-8");
+    public static Scanner sc = new Scanner(System.in, "ISO-8859-1");
     
     //Colores para el texto de la consola
     public static final String TEXTO_NEGRO = "\u001B[30m";
