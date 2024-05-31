@@ -5,7 +5,7 @@
 <br>
 <h2>FLOJERAS UTILITY</h2>
 
-Es una clase que incorpora métodos a modo de atajos, bien siendo el print() a modo de reemplazar el System.out.println(), el recorrerArray() y recorrerMatriz() para no tener que crear los bucles para ver el contenido, y varias cosas más. Entre ellas:
+Es una clase que incorpora métodos a modo de atajos, bien siendo el println() a modo de reemplazar el System.out.println(), el recorrerArray() y recorrerMatriz() para no tener que crear los bucles para ver el contenido, y varias cosas más. Entre ellas:
 
 - Métodos matemáticos
   - esCapicua() -> Te comprueba si un número es capicúa o no.
