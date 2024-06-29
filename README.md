@@ -33,6 +33,13 @@ Permite establecer el nombre de la clase, y añadir atributos, además de poder 
 Es una clase que genera contraseñas de forma aleatoria según la pida el usuario, además de validar contraseñas. Se permite especificar la longitud, si quiere mayúsculas, números y símbolos.
 Para poder usarlo, se puede extender de esta clase, o bien se puede crear un objeto.
 
+
+<h2>FLOJERAS FILE MANAGER</h2>
+
+Es una clase que simplifica la tarea a la hora de leer el contenido de un archivo o escribir en éste. Es recomendable consultar el javadoc, ya que la clase tiene una cola de cambios y maneja el tema de flujo de datos.
+Para utilizarla, se crea un objeto de esta clase con la ruta del archivo en cuestión.
+
+
 <h2>CÓMO AÑADIR LA LIBRERÍA A TU PROYECTO</h2>
 
 Para añadir esta librería, hay dos formas:
