@@ -1,6 +1,6 @@
 package flojerasdependency;
 
-//FLOJERAS FILE MANAGER V0.1
+//FLOJERAS FILE MANAGER V0.1.1
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -26,7 +26,7 @@ public class FlojerasFileManager {
     public FlojerasFileManager(String ruta){
         this.archivo = new File(ruta);
         if(!archivo.isFile()){
-            System.out.printf("LA RUTA NO ES VÁLIDA (%s): ARCHIVO NO VÁLIDO\n", ruta);
+            System.out.printf("EL ARCHIVO/RUTA NO ES VÁLIDO (%s)\n", ruta);
             accesible = false;
         }else{
             accesible = true;
@@ -128,7 +128,7 @@ public class FlojerasFileManager {
      * Elimina el último elemento añadido a la cola.
      */
     public void deshacerCambiosCola(){
-        queue.pop();
+        if(!queue.isEmpty()) queue.pop();
     }
     
     /**
