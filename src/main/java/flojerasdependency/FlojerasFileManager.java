@@ -1,6 +1,6 @@
 package flojerasdependency;
 
-//FLOJERAS FILE MANAGER V0.1.1
+//FLOJERAS FILE MANAGER V0.1.2
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -35,8 +35,8 @@ public class FlojerasFileManager {
         debugMode = false;
     }
 
-    public FlojerasFileManager(String archivo, boolean debugMode) {
-        this(archivo);
+    public FlojerasFileManager(String ruta, boolean debugMode){
+        this(ruta);
         this.debugMode = debugMode;
     }
 
@@ -46,6 +46,29 @@ public class FlojerasFileManager {
      */
     public String rutaAbsoluta(){
         return archivo.getAbsolutePath();
+    }
+    
+    /**
+     * Modifica la ruta del archivo al que apunta el objeto. Si ya hay un flujo de datos abierto, no se podrá cambiar y no surtirá efecto.
+     * Para cerrar el flujo de datos, se debe llamar a cerrarFlujo(). Por medio del parámetro de forzado, se puede especificar si se quiere
+     * cerrar el flujo directamente o no.
+     * @param nuevaRuta La ruta a la que se quiere cambiar
+     * @param forzado Forzar el cambio
+     */
+    public void cambiarRuta(String nuevaRuta, boolean forzado){
+        if(forzado) cerrarFlujo();
+        
+        if(writer == null && reader == null){
+            archivo = new File(nuevaRuta);
+            if(!archivo.isFile()){
+                System.out.printf("EL ARCHIVO/RUTA NO ES VÁLIDO (%s)\n", nuevaRuta);
+                accesible = false;
+            }else{
+                accesible = true;
+            }
+        }else{
+            System.out.println("Ya hay un flujo de datos abierto. Se debe de cerrar primero antes de poder cambiar la ruta.");
+        }
     }
     
     /**
@@ -91,23 +114,27 @@ public class FlojerasFileManager {
      * Añade todos los elementos de la cola al flujo de datos. Hasta que no se llame el método efectuarCambios(), no se realizará la escritura en el archivo.
      */
     public void prepararCambios(){
-        if(!queue.isEmpty()){
-            if(writer == null){
-                try {
-                    writer = new BufferedWriter(new FileWriter(this.archivo, true));
-                } catch (IOException ex) {}
-            }
-            try {
-                for(String item : queue)
-                    writer.write(item);
-            } catch (IOException ex) {
-                if(debugMode){
-                    System.out.println("No se ha podido escribir en el archivo");
-                    ex.printStackTrace(System.out);
+        if(accesible){
+            if(!queue.isEmpty()){
+                if(writer == null){
+                    try {
+                        writer = new BufferedWriter(new FileWriter(this.archivo, true));
+                    } catch (IOException ex) {}
                 }
+                try {
+                    for(String item : queue)
+                        writer.write(item);
+                } catch (IOException ex) {
+                    if(debugMode){
+                        System.out.println("No se ha podido escribir en el archivo.");
+                        ex.printStackTrace(System.out);
+                    }
+                }
+            }else{
+                System.out.println("No hay ningún cambio añadido a la cola.");
             }
         }else{
-            System.out.println("No hay ningún cambio añadido a la cola.");
+            System.out.println("No se puede acceder al archivo especificado.");
         }
     }
     
