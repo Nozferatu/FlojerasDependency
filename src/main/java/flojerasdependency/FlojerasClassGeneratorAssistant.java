@@ -2,28 +2,30 @@ package flojerasdependency;
 
 import java.io.File;
 import java.io.FileWriter;
+import java.io.FilenameFilter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Objects;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 
-//FLOJERAS CLASS GENERATOR ASSISTANT V0.3.1
+//FLOJERAS CLASS GENERATOR ASSISTANT V0.4
 
 /**
  *
  * @author Carlos Madrid
  */
 public class FlojerasClassGeneratorAssistant extends FlojerasUtility{
-    /* Posible optimización para agrupar las clases de ejemplo. A lo mejor le saco uso, a lo mejor no, no lo sé todavía
-    private class ClaseEjemplo{
-        private String nombre;
-        private Atributo[] atributos;
-        private boolean tieneToString;
-
-        public ClaseEjemplo(String nombre, Atributo[] atributos, boolean tieneToString) {
-            this.nombre = nombre;
-            this.atributos = atributos;
-            this.tieneToString = tieneToString;
-        }
-    }*/
     
     private class Atributo{
         private String visibilidad;
@@ -37,6 +39,10 @@ public class FlojerasClassGeneratorAssistant extends FlojerasUtility{
             modificadores = new HashMap();
         }
 
+        public Atributo(String nombre) {
+            this.nombre = nombre;
+        }
+        
         public Atributo(String visibilidad, String tipo, String nombre, boolean seraFinal, boolean seraStatic, boolean tieneSetter, boolean tieneGetter) {
             this.visibilidad = visibilidad;
             this.tipo = tipo;
@@ -117,6 +123,30 @@ public class FlojerasClassGeneratorAssistant extends FlojerasUtility{
                 tieneSetter = false;
             }
         }
+
+        public String getVisibilidad() {
+            return visibilidad;
+        }
+
+        public String getTipo() {
+            return tipo;
+        }
+
+        public String getNombre() {
+            return nombre;
+        }
+
+        public HashMap<String, Boolean> getModificadores() {
+            return modificadores;
+        }
+
+        public boolean tieneSetter() {
+            return tieneSetter;
+        }
+
+        public boolean tieneGetter() {
+            return tieneGetter;
+        }
         
         @Override
         public String toString() {
@@ -125,6 +155,21 @@ public class FlojerasClassGeneratorAssistant extends FlojerasUtility{
                 if(modificadores.get(mod)) mods += '[' + mod + ']';
             }
             return '{' + nombre + "} -> " + "Visibilidad: " + visibilidad + ", Tipo: " + tipo + ", Modificadores: " + mods + ", Tiene setter: " + tieneSetter + ", Tiene getter: " + tieneGetter;
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            final Atributo other = (Atributo) obj;
+            return Objects.equals(this.nombre.toLowerCase(), other.nombre.toLowerCase());
         }
     }
     
@@ -135,14 +180,14 @@ public class FlojerasClassGeneratorAssistant extends FlojerasUtility{
         boolean terminado = false;
         
         //Variables para almacenar los datos de la clase
-        String nombre = "ClaseDeEjemplo";
+        String nombreClase = "ClaseDeEjemplo";
         boolean tieneToString = false;
-        Atributo[] atributos = new Atributo[5];
+        List<Atributo> atributos = new ArrayList();
         
-        System.out.println("//----- FLOJERAS CLASS GENERATOR ASSISTANT V0.3.1 -----//\n");
+        System.out.println("//----- FLOJERAS CLASS GENERATOR ASSISTANT V0.4 -----//\n");
         do{
             System.out.println("\nElija una opción:");
-            System.out.println("[1] Declarar nombre clase");
+            System.out.printf("[1] Declarar nombre clase (%s)\n", nombreClase);
             System.out.println("[2] Introducir atributo");
             System.out.println("[3] Modificar atributo");
             System.out.println("[4] Mostrar atributos");
@@ -150,96 +195,94 @@ public class FlojerasClassGeneratorAssistant extends FlojerasUtility{
             else System.out.println("[5] Quitar método toString");
             System.out.println("[6] Generar clase");
             System.out.println("[7] Generar clase de prueba");
-            System.out.println("[8] Detener\n");
+            System.out.println("[8] Guardar clase como XML");
+            System.out.println("[9] Cargar clase");
+            System.out.println("[10] Detener\n");
             
             do{
                 opcion = pedirInt(">" ,false);
-            }while(opcion < 1 || opcion > 8);
+            }while(opcion < 1 || opcion > 10);
             
             switch(opcion){
                 case 1:
                     System.out.println("\nIntroduce el nombre de la clase:");
-                    nombre = pedirTexto(">", false);
+                    nombreClase = pedirTexto(">", false);
                     
                     break;
                 case 2:
-                    int pos = devolverNumEspaciosOcupados(atributos);
-                    atributos[pos] = new Atributo();
-                    atributos[pos].pedirDatos();
+                    Atributo nuevoAtributo = new Atributo();
+                    nuevoAtributo.pedirDatos();
+                    atributos.add(nuevoAtributo);
                     break;
                 case 3:
-                    if(devolverNumEspaciosOcupados(atributos) != 0){
+                    if(!atributos.isEmpty()){
                         System.out.println("Elige el atributo a modificar:");
-                        for (int i = 0; i < atributos.length; i++) {
-                            if(atributos[i] != null){
-                                System.out.println((i+1) + "º: " + atributos[i].nombre);
-                            }
+                        for (Atributo attr : atributos) {
+                            System.out.println(" - " + attr.nombre);
                         }
 
                         do{
-                            opcion = pedirInt(">", false);
-                            opcion--;
-                            if(opcion >= 0){
-                                if(atributos[opcion] != null){
-                                    Atributo atrAux = atributos[opcion];
-                                    //Menú de edición del atributo
-                                    int opcionEdit;
-                                    boolean continuar = true;
-                                    String input;
-                                    System.out.println("\n//----- MENÚ DE EDICIÓN DEL ATRIBUTO -----//");
-                                    do{
-                                        System.out.printf("[1] Cambiar visibilidad -> %s", atrAux.visibilidad);
-                                        System.out.printf("\n[2] Cambiar tipo -> %s", atrAux.tipo);
-                                        System.out.printf("\n[3] Cambiar nombre -> %s", atrAux.nombre);
-                                        System.out.printf("\n[4] Alternar modificador static -> %s", atrAux.modificadores.get("static"));
-                                        System.out.printf("\n[5] Alternar modificador final -> %s", atrAux.modificadores.get("final"));
-                                        System.out.printf("\n[6] Alternar setter -> %s", atrAux.tieneSetter);
-                                        System.out.printf("\n[7] Alternar getter -> %s", atrAux.tieneGetter);
-                                        System.out.println("\n[8] Guardar cambios");
-                                        System.out.println("[9] Deshacer cambios");
-                                        opcionEdit = pedirInt(">" , false);
-                                        switch(opcionEdit){
-                                            case 1:
-                                                System.out.println("Introduce la nueva visibilidad: ");
-                                                input = pedirTexto(">", false);
-                                                
-                                                atrAux.visibilidad = input;
-                                                break;
-                                            case 2:
-                                                System.out.println("Introduce el nuevo tipo: ");
-                                                input = pedirTexto(">", false);
-                                                
-                                                atrAux.tipo = input;
-                                                break;
-                                            case 3:
-                                                System.out.println("Introduce el nuevo nombre: ");
-                                                input = pedirTexto(">", false);
-                                                
-                                                atrAux.nombre = input;
-                                                break;
-                                            case 4:
-                                                atrAux.modificadores.replace("static", !atrAux.modificadores.get("static"));
-                                                break;
-                                            case 5:
-                                                atrAux.modificadores.replace("final", !atrAux.modificadores.get("final"));
-                                                break;
-                                            case 6:
-                                                atrAux.tieneSetter = !atrAux.tieneSetter;
-                                                break;
-                                            case 7:
-                                                atrAux.tieneGetter = !atrAux.tieneGetter;
-                                                break;
-                                            case 8:
-                                                atributos[opcion] = atrAux;
-                                            case 9:
-                                                continuar = false;
-                                                break;
-                                            default:
-                                                System.out.println("Opción inválida");
-                                        }
-                                    }while(continuar);
-                                    break;
-                                }
+                            String opcionAttr = pedirTexto(">", false);
+                            Atributo atrAux = recuperarAtributo(atributos, new Atributo(opcionAttr));
+                            if(atrAux != null){
+                                int idx = atributos.indexOf(atrAux);
+                                //Menú de edición del atributo
+                                int opcionEdit;
+                                boolean continuar = true;
+                                String input;
+                                System.out.println("\n//----- MENÚ DE EDICIÓN DEL ATRIBUTO -----//");
+                                do{
+                                    System.out.printf("[1] Cambiar visibilidad -> %s", atrAux.visibilidad);
+                                    System.out.printf("\n[2] Cambiar tipo -> %s", atrAux.tipo);
+                                    System.out.printf("\n[3] Cambiar nombre -> %s", atrAux.nombre);
+                                    System.out.printf("\n[4] Alternar modificador static -> %s", atrAux.modificadores.get("static"));
+                                    System.out.printf("\n[5] Alternar modificador final -> %s", atrAux.modificadores.get("final"));
+                                    System.out.printf("\n[6] Alternar setter -> %s", atrAux.tieneSetter);
+                                    System.out.printf("\n[7] Alternar getter -> %s", atrAux.tieneGetter);
+                                    System.out.println("\n[8] Guardar cambios");
+                                    System.out.println("[9] Deshacer cambios");
+                                    opcionEdit = pedirInt(">" , false);
+                                    switch(opcionEdit){
+                                        case 1:
+                                            System.out.println("Introduce la nueva visibilidad: ");
+                                            input = pedirTexto(">", false);
+
+                                            atrAux.visibilidad = input;
+                                            break;
+                                        case 2:
+                                            System.out.println("Introduce el nuevo tipo: ");
+                                            input = pedirTexto(">", false);
+
+                                            atrAux.tipo = input;
+                                            break;
+                                        case 3:
+                                            System.out.println("Introduce el nuevo nombre: ");
+                                            input = pedirTexto(">", false);
+
+                                            atrAux.nombre = input;
+                                            break;
+                                        case 4:
+                                            atrAux.modificadores.replace("static", !atrAux.modificadores.get("static"));
+                                            break;
+                                        case 5:
+                                            atrAux.modificadores.replace("final", !atrAux.modificadores.get("final"));
+                                            break;
+                                        case 6:
+                                            atrAux.tieneSetter = !atrAux.tieneSetter;
+                                            break;
+                                        case 7:
+                                            atrAux.tieneGetter = !atrAux.tieneGetter;
+                                            break;
+                                        case 8:
+                                            atributos.set(idx, atrAux);
+                                        case 9:
+                                            continuar = false;
+                                            break;
+                                        default:
+                                            System.out.println("Opción inválida");
+                                    }
+                                }while(continuar);
+                                break;
                             }
                         }while(true);
                     }else{
@@ -257,37 +300,165 @@ public class FlojerasClassGeneratorAssistant extends FlojerasUtility{
                     tieneToString = !tieneToString;
                     break;
                 case 6:
-                    generarClase(nombre, atributos, tieneToString);
+                    generarClase(nombreClase, atributos, tieneToString);
                     break;
                 case 7:
                     System.out.println("\nElige una de las siguientes opciones:");
                     System.out.println("[1] Persona");
                     System.out.println("[2] Animal");
                     do{
-                        System.out.print(">");
                         opcion = pedirInt(">", false);
                     }while(opcion < 1 || opcion > 2);
                     
                     switch(opcion){
                         case 1:
-                            Atributo[] atrPersona = new Atributo[4];
-                            atrPersona[0] = new Atributo("private", "String", "nombre", false, false, true, true);
-                            atrPersona[1] = new Atributo("private", "String", "apellidos", false, false, true, true);
-                            atrPersona[2] = new Atributo("private", "int", "edad", false, false, true, true);
-                            atrPersona[3] = new Atributo("private", "int", "telefono", false, false, true, true);
+                            List<Atributo> atrPersona = new ArrayList();
+                            atrPersona.add(new Atributo("private", "String", "nombre", false, false, true, true));
+                            atrPersona.add(new Atributo("private", "String", "apellidos", false, false, true, true));
+                            atrPersona.add(new Atributo("private", "int", "edad", false, false, true, true));
+                            atrPersona.add(new Atributo("private", "int", "telefono", false, false, true, true));
                             generarClase("Persona", atrPersona, true);
                             break;
                         case 2:
-                            Atributo[] atrAnimal = new Atributo[4];
-                            atrAnimal[0] = new Atributo("private", "String", "nombre", false, false, true, true);
-                            atrAnimal[0] = new Atributo("private", "String", "especie", false, false, true, true);
-                            atrAnimal[1] = new Atributo("private", "String", "nombreCientifico", false, false, true, true);
-                            atrAnimal[2] = new Atributo("private", "String", "alimentacion", false, false, true, true);
-                            atrAnimal[3] = new Atributo("private", "String", "reproduccion", false, false, true, true);
+                            List<Atributo> atrAnimal = new ArrayList();
+                            atrAnimal.add(new Atributo("private", "String", "nombre", false, false, true, true));
+                            atrAnimal.add(new Atributo("private", "String", "especie", false, false, true, true));
+                            atrAnimal.add(new Atributo("private", "String", "nombreCientifico", false, false, true, true));
+                            atrAnimal.add(new Atributo("private", "String", "alimentacion", false, false, true, true));
+                            atrAnimal.add(new Atributo("private", "String", "reproduccion", false, false, true, true));
                             generarClase("Animal", atrAnimal, true);
                     }
                     break;
                 case 8:
+                    try {
+                        //Creación del documento
+                        DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+                        DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+                        Document doc = dBuilder.newDocument();
+                        
+                        //Elemento raíz
+                        Element raiz = doc.createElement("clase");
+                        doc.appendChild(raiz);
+                        
+                        //Nombre
+                        Element eNombreClase = doc.createElement("nombreClase");
+                        eNombreClase.appendChild(doc.createTextNode(nombreClase));
+                        raiz.appendChild(eNombreClase);
+                        
+                        //Atributos
+                        Element eAtributos = doc.createElement("atributos");
+                        for(Atributo attr : atributos){
+                            if(attr != null){
+                                Element a = doc.createElement("atributo");
+                                Element eNombreAttr = doc.createElement("nombre");
+                                eNombreAttr.appendChild(doc.createTextNode(attr.getNombre()));
+                                a.appendChild(eNombreAttr);
+                                Element tipoAttr = doc.createElement("tipo");
+                                tipoAttr.appendChild(doc.createTextNode(attr.getTipo()));
+                                a.appendChild(tipoAttr);
+                                Element scopeAttr = doc.createElement("visibilidad");
+                                scopeAttr.appendChild(doc.createTextNode(attr.getVisibilidad()));
+                                a.appendChild(scopeAttr);
+                                //Modificadores si tiene
+                                Element modAttr = doc.createElement("modificadores");
+                                for(String valor : attr.getModificadores().keySet()){
+                                    if(attr.getModificadores().get(valor)){
+                                        Element eStatic = doc.createElement(valor);
+                                        modAttr.appendChild(eStatic);
+                                    }
+                                }
+                                a.appendChild(modAttr);
+                                if(attr.tieneGetter){
+                                    a.appendChild(doc.createElement("tieneGetter"));
+                                }
+                                if(attr.tieneSetter){
+                                    a.appendChild(doc.createElement("tieneSetter"));
+                                }
+                                eAtributos.appendChild(a);
+                            }
+                        }
+                        
+                        raiz.appendChild(eAtributos);
+                        
+                        if(tieneToString){
+                            raiz.appendChild(doc.createElement("tieneToString"));
+                        }
+                        
+                        //Se escribe en el archivo XML
+                        Transformer transformer = TransformerFactory.newInstance().newTransformer();
+                        //Necesario para que salga con un formato
+                        transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+                        transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
+                        DOMSource source = new DOMSource(doc);
+                        StreamResult result = new StreamResult(new File(nombreClase + ".xml"));
+
+                        transformer.transform(source, result);
+                    } catch(Exception e) {
+                        e.printStackTrace(System.out);
+                    }
+                    break;
+                case 9:
+                    //Se filtran los archivos del directorio actual
+                    File directorioActual = new File(".");
+                    File[] opciones;
+                    File archivoSeleccionado;
+                    FilenameFilter filter = (File f, String name) -> name.endsWith(".xml");
+                    //Se listan los archivos
+                    opciones = directorioActual.listFiles(filter);
+                    for(int i = 0; i < opciones.length; i++){
+                        File archivo = opciones[i];
+                        System.out.printf("[%s] - " + archivo.getName() + "\n", i+1);
+                    }
+                    do{
+                        opcion = pedirInt(">", false);
+                    }while(opcion < 1 || opcion > opciones.length);
+                    opcion--;
+                    
+                    archivoSeleccionado = opciones[opcion];
+
+                    if(archivoSeleccionado != null){
+                        //Se lee el archivo y carga los valores
+                        try {
+                            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+                            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+                            Document doc = dBuilder.parse(archivoSeleccionado);
+
+                            //Nombre de la clase
+                            Element raiz = (Element) doc.getChildNodes().item(0);
+                            nombreClase = raiz.getElementsByTagName("nombreClase").item(0).getTextContent();
+                            
+                            //Atributos
+                            Element atributosAux = (Element) raiz.getElementsByTagName("atributos").item(0);
+                            NodeList atributosList = atributosAux.getElementsByTagName("atributo");
+                            for(int i = 0; i < atributosList.getLength(); i++){
+                                Element atributo = (Element) atributosList.item(i);
+                                String nombreAttr = atributo.getElementsByTagName("nombre").item(0).getTextContent();
+                                String tipoAttr = atributo.getElementsByTagName("tipo").item(0).getTextContent();
+                                String scopeAttr = atributo.getElementsByTagName("visibilidad").item(0).getTextContent();
+                                NodeList modificadores = atributo.getElementsByTagName("modificadores");
+                                boolean esStatic = false;
+                                boolean esFinal = false;
+                                if(modificadores.getLength() > 0){
+                                    for(int j = 0; j < modificadores.getLength(); j++){
+                                        Element mod = (Element) modificadores.item(j);
+                                        if(mod.getElementsByTagName("static").item(0) != null) esStatic = true;
+                                        if(mod.getElementsByTagName("final").item(0) != null) esFinal = true;
+                                    }
+                                }
+                                boolean tieneSetter = atributo.getElementsByTagName("tieneSetter").item(0) != null;
+                                boolean tieneGetter = atributo.getElementsByTagName("tieneGetter").item(0) != null;
+                                atributos.add(new Atributo(scopeAttr, tipoAttr, nombreAttr, esFinal, esStatic, tieneSetter, tieneGetter));
+                            }
+                            Element toString = (Element) raiz.getElementsByTagName("tieneToString").item(0);
+                            tieneToString = toString != null;
+                        } catch(Exception e) {
+                            e.printStackTrace(System.out);
+                        }
+                    }else{
+                        System.out.println("Cancelado");
+                    }
+                    break;
+                case 10:
                     terminado = true;
             }
         }while(!terminado);
@@ -295,7 +466,15 @@ public class FlojerasClassGeneratorAssistant extends FlojerasUtility{
         System.out.println(TEXTO_VERDE + "Fin de la ejecución." + RESET_COLORES);
     }
     
-    private void generarClase(String nombre, Atributo[] atributos, boolean tieneToString){
+    private Atributo recuperarAtributo(List<Atributo> lista, Atributo proporcionado){
+        for(Atributo a : lista){
+            if(a.equals(proporcionado)) return a;
+        }
+        
+        return null;
+    }
+    
+    private void generarClase(String nombre, List<Atributo> atributos, boolean tieneToString){
         File clase = new File(nombre + ".java");
         try {
             if(clase.createNewFile()){
@@ -307,62 +486,59 @@ public class FlojerasClassGeneratorAssistant extends FlojerasUtility{
                 output.write("public class " + nombre + " {\n");
                 //Atributos
                 output.write("    //Atributos\n");
-                int numAtr = devolverNumEspaciosOcupados(atributos);
-                for(int i = 0; i < numAtr; i++){
+                for(Atributo a : atributos){
                     //Modificadores de los atributos
                     String mods = " ";
-                    HashMap<String, Boolean> modAux = atributos[i].modificadores;
+                    HashMap<String, Boolean> modAux = a.modificadores;
                     for(String mod : modAux.keySet()){
                         if(modAux.get(mod)) mods += mod + ' ';
                     }
-                    output.write("    " + atributos[i].visibilidad
+                    output.write("    " + a.visibilidad
                                         + mods
-                                        + atributos[i].tipo + " "
-                                        + atributos[i].nombre + ";\n");
+                                        + a.tipo + " "
+                                        + a.nombre + ";\n");
                 }
                 //Constructor
                 output.write("\n    //Constructor");
                 output.write("\n    public " + nombre + "(");
-                for(int i = 0; i < numAtr; i++){
-                    output.write(atributos[i].tipo + " " + atributos[i].nombre);
-                    if(i+1 != numAtr){
+                for(Atributo a : atributos){
+                    output.write(a.tipo + " " + a.nombre);
+                    if(!a.equals(atributos.get(atributos.size() - 1))){
                         output.write(", ");
                     }
                 }
                 output.write("){\n");
                 String aux;
-                for(int i = 0; i < numAtr; i++){
-                    aux = atributos[i].nombre;
+                for(Atributo a : atributos){
+                    aux = a.nombre;
                     output.write("        this." + aux + " = " + aux + ";\n");
                 }
                 output.write("    }\n");
                 //Getters y setters
                 output.write("\n    //Getters y setters");
-                for(int i = 0; i < numAtr; i++){
-                    aux = atributos[i].nombre; //Facilita la vida cuando tienes que escribir mucho para referenciar algo xd
+                for(Atributo a : atributos){
+                    aux = a.nombre; //Facilita la vida cuando tienes que escribir mucho para referenciar algo xd
                     //Getter
-                    if(atributos[i].tieneGetter){
-                        output.write("\n    public " + atributos[i].tipo + " get" 
+                    if(a.tieneGetter){
+                        output.write("\n    public " + a.tipo + " get" 
                                                    + aux.substring(0, 1).toUpperCase() + aux.substring(1, aux.length())+ "(){\n");
                         output.write("        return " + aux + ";\n    }\n");
                     }
                     //Setter
-                    if(atributos[i].tieneSetter){
-                        output.write("\n    public void set" + aux.substring(0, 1).toUpperCase() + aux.substring(1, aux.length()) + "(" + atributos[i].tipo + " " + aux + "){\n");
+                    if(a.tieneSetter){
+                        output.write("\n    public void set" + aux.substring(0, 1).toUpperCase() + aux.substring(1, aux.length()) + "(" + a.tipo + " " + aux + "){\n");
                         output.write("        this." + aux + " = " + aux + ";\n    }\n");
                     }
                 }
                 //toString
                 if(tieneToString){
                     output.write("\n    @Override\n    public String toString(){\n");
-                    output.write("        return \"" + nombre + "{\" + ");
-                    for(int i = 0; i < numAtr; i++){
-                        aux = atributos[i].nombre;
-                        if(i+1 != numAtr){
-                            output.write("\"");
-                        }
+                    output.write("        return \"" + nombre + "{\" + \"");
+                    for(Atributo a : atributos){
+                        aux = a.nombre;
                         output.write(aux + "=\" + " + aux);
-                        if(i+1 != numAtr){
+                        
+                        if(!a.equals(atributos.get(atributos.size() - 1))){
                             output.write( " + \", ");
                         }
                     }
