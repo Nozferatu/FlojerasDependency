@@ -1,6 +1,6 @@
 package flojerasdependency;
 
-//FLOJERAS FILE MANAGER V0.1.2
+//FLOJERAS FILE MANAGER V0.1.3
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -25,6 +25,14 @@ public class FlojerasFileManager {
     
     public FlojerasFileManager(String ruta){
         this.archivo = new File(ruta);
+        if(!archivo.exists()) {
+            try {
+                archivo.createNewFile();
+                if(debugMode) System.out.println("Archivo nuevo creado");
+            } catch (IOException ex) {
+                if(debugMode) System.out.println("No se ha podido crear el archivo");
+            }
+        }
         if(!archivo.isFile()){
             System.out.printf("EL ARCHIVO/RUTA NO ES VÁLIDO (%s)\n", ruta);
             accesible = false;
@@ -68,6 +76,39 @@ public class FlojerasFileManager {
             }
         }else{
             System.out.println("Ya hay un flujo de datos abierto. Se debe de cerrar primero antes de poder cambiar la ruta.");
+        }
+    }
+    
+    private static boolean borrarArchivo(File f){
+        if(f.isFile()){
+            return f.delete();
+        }else return false;
+    }
+    
+    /**
+     * Borra el archivo al que esté apuntando el objeto. Devuelve un booleano indicando si ha podido eliminarlo o no.
+     * Este método no funcionará mientras haya un flujo de datos abierto o la ruta proporcionada sea un directorio.
+     * @param forzado Indica si se quiere que el borrado se haga de manera forzada.
+     * @return Verdadero en caso de haberlo borrado con éxito. De lo contrario, será falso.
+     */
+    public boolean borrarArchivo(boolean forzado){
+        if(accesible) {
+            if(forzado) cerrarFlujo();
+            return borrarArchivo(archivo);
+        } else return false;
+    }
+    
+    /**
+     * Lo mismo que borrarArchivo(), pero pasando directamente la ruta del archivo.
+     * @param ruta Ruta del archivo
+     * @return Verdadero en caso de haberlo borrado con éxito. De lo contrario, será falso.
+     */
+    public static boolean borrarArchivo(String ruta){
+        File tmp = new File(ruta);
+        if(tmp.exists()){
+            return borrarArchivo(tmp);
+        }else{
+            return false;
         }
     }
     
