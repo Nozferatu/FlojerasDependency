@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.FilenameFilter;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
@@ -19,7 +18,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
-//FLOJERAS CLASS GENERATOR ASSISTANT V0.4
+//FLOJERAS CLASS GENERATOR ASSISTANT V0.4.1
 
 /**
  *
@@ -43,6 +42,17 @@ public class FlojerasClassGeneratorAssistant extends FlojerasUtility{
             this.nombre = nombre;
         }
         
+        public Atributo(String visibilidad, String tipo, String nombre){
+            this.visibilidad = visibilidad;
+            this.tipo = tipo;
+            this.nombre = nombre;
+            modificadores = new HashMap();
+            modificadores.put("final", false);
+            modificadores.put("static", false);
+            this.tieneSetter = true;
+            this.tieneGetter = true;
+        }
+        
         public Atributo(String visibilidad, String tipo, String nombre, boolean seraFinal, boolean seraStatic, boolean tieneSetter, boolean tieneGetter) {
             this.visibilidad = visibilidad;
             this.tipo = tipo;
@@ -56,23 +66,23 @@ public class FlojerasClassGeneratorAssistant extends FlojerasUtility{
         
         public void pedirDatos(){
             System.out.println("\nIntroduce el nombre:");
-            nombre = pedirTexto(">", false);
-                    
+            nombre = fInput.pedirTexto(">", false);
+
             System.out.println("\nIntroduce el tipo de dato (int):");
-            tipo = pedirTexto(">", true);
-                    
+            tipo = fInput.pedirTexto(">", true);
+
             if(tipo.isEmpty()){
                 this.tipo = "int";
             }
-            
+
             System.out.println("\nIntroduce la visibilidad (private):");
-            visibilidad = pedirTexto(">", true);
-            
+            visibilidad = fInput.pedirTexto(">", true);
+
             if(visibilidad.isEmpty()) visibilidad = "private";
-            
+
             System.out.println("\n¿Será static? (S/N)");
             do{
-                char res = pedirLetra(">", true);
+                char res = fInput.pedirLetra(">", true);
                 if(res == 'S'){
                     modificadores.put("static", true);
                     break;
@@ -81,10 +91,10 @@ public class FlojerasClassGeneratorAssistant extends FlojerasUtility{
                     break;
                 }
             }while(true);
-            
+
             System.out.println("\n¿Será final? (S/N)");
             do{
-                char res = pedirLetra(">", true);
+                char res = fInput.pedirLetra(">", true);
                 if(res == 'S'){
                     modificadores.put("final", true);
                     break;
@@ -93,10 +103,10 @@ public class FlojerasClassGeneratorAssistant extends FlojerasUtility{
                     break;
                 }
             }while(true);
-            
+
             System.out.println("\n¿Tendrá getter? (S/N)");
             do{
-                char res = pedirLetra(">", true);
+                char res = fInput.pedirLetra(">", true);
                 if(res == 'S'){
                     tieneGetter = true;
                     break;
@@ -105,12 +115,12 @@ public class FlojerasClassGeneratorAssistant extends FlojerasUtility{
                     break;
                 }
             }while(true);
-            
+
             //En caso de que el atributo sea final, se omite y se pone en false
             if(!modificadores.get("final")){
                 System.out.println("\n¿Tendrá setter? (S/N)");
                 do{
-                    char res = pedirLetra(">", true);
+                    char res = fInput.pedirLetra(">", true);
                     if(res == 'S'){
                         tieneSetter = true;
                         break;
@@ -172,8 +182,12 @@ public class FlojerasClassGeneratorAssistant extends FlojerasUtility{
             return Objects.equals(this.nombre.toLowerCase(), other.nombre.toLowerCase());
         }
     }
+
+    private FlojerasInput fInput;
     
-    public FlojerasClassGeneratorAssistant(){}
+    public FlojerasClassGeneratorAssistant(){
+        fInput = new FlojerasInput();
+    }
     
     public void iniciar(){
         int opcion;
@@ -182,9 +196,9 @@ public class FlojerasClassGeneratorAssistant extends FlojerasUtility{
         //Variables para almacenar los datos de la clase
         String nombreClase = "ClaseDeEjemplo";
         boolean tieneToString = false;
-        List<Atributo> atributos = new ArrayList();
+        HashMap<String, Atributo> atributos = new HashMap<String, Atributo>();
         
-        System.out.println("//----- FLOJERAS CLASS GENERATOR ASSISTANT V0.4 -----//\n");
+        System.out.println("//----- FLOJERAS CLASS GENERATOR ASSISTANT V0.4.1 -----//\n");
         do{
             System.out.println("\nElija una opción:");
             System.out.printf("[1] Declarar nombre clase (%s)\n", nombreClase);
@@ -200,32 +214,31 @@ public class FlojerasClassGeneratorAssistant extends FlojerasUtility{
             System.out.println("[10] Detener\n");
             
             do{
-                opcion = pedirInt(">" ,false);
+                opcion = fInput.pedirInt(">" ,false);
             }while(opcion < 1 || opcion > 10);
             
             switch(opcion){
                 case 1:
                     System.out.println("\nIntroduce el nombre de la clase:");
-                    nombreClase = pedirTexto(">", false);
+                    nombreClase = fInput.pedirTexto(">", false);
                     
                     break;
                 case 2:
                     Atributo nuevoAtributo = new Atributo();
                     nuevoAtributo.pedirDatos();
-                    atributos.add(nuevoAtributo);
+                    atributos.put(nuevoAtributo.nombre ,nuevoAtributo);
                     break;
                 case 3:
                     if(!atributos.isEmpty()){
                         System.out.println("Elige el atributo a modificar:");
-                        for (Atributo attr : atributos) {
+                        for (Atributo attr : atributos.values()) {
                             System.out.println(" - " + attr.nombre);
                         }
 
                         do{
-                            String opcionAttr = pedirTexto(">", false);
-                            Atributo atrAux = recuperarAtributo(atributos, new Atributo(opcionAttr));
+                            String opcionAttr = fInput.pedirTexto(">", false);
+                            Atributo atrAux = atributos.get(opcionAttr);
                             if(atrAux != null){
-                                int idx = atributos.indexOf(atrAux);
                                 //Menú de edición del atributo
                                 int opcionEdit;
                                 boolean continuar = true;
@@ -241,23 +254,23 @@ public class FlojerasClassGeneratorAssistant extends FlojerasUtility{
                                     System.out.printf("\n[7] Alternar getter -> %s", atrAux.tieneGetter);
                                     System.out.println("\n[8] Guardar cambios");
                                     System.out.println("[9] Deshacer cambios");
-                                    opcionEdit = pedirInt(">" , false);
+                                    opcionEdit = fInput.pedirInt(">" , false);
                                     switch(opcionEdit){
                                         case 1:
                                             System.out.println("Introduce la nueva visibilidad: ");
-                                            input = pedirTexto(">", false);
+                                            input = fInput.pedirTexto(">", false);
 
                                             atrAux.visibilidad = input;
                                             break;
                                         case 2:
                                             System.out.println("Introduce el nuevo tipo: ");
-                                            input = pedirTexto(">", false);
+                                            input = fInput.pedirTexto(">", false);
 
                                             atrAux.tipo = input;
                                             break;
                                         case 3:
                                             System.out.println("Introduce el nuevo nombre: ");
-                                            input = pedirTexto(">", false);
+                                            input = fInput.pedirTexto(">", false);
 
                                             atrAux.nombre = input;
                                             break;
@@ -274,7 +287,7 @@ public class FlojerasClassGeneratorAssistant extends FlojerasUtility{
                                             atrAux.tieneGetter = !atrAux.tieneGetter;
                                             break;
                                         case 8:
-                                            atributos.set(idx, atrAux);
+                                            atributos.put(opcionAttr, atrAux);
                                         case 9:
                                             continuar = false;
                                             break;
@@ -290,7 +303,7 @@ public class FlojerasClassGeneratorAssistant extends FlojerasUtility{
                     }
                     break;
                 case 4:
-                    for(Atributo atr: atributos){
+                    for(Atributo atr: atributos.values()){
                         if(atr != null){
                             System.out.println(atr);
                         }
@@ -307,25 +320,25 @@ public class FlojerasClassGeneratorAssistant extends FlojerasUtility{
                     System.out.println("[1] Persona");
                     System.out.println("[2] Animal");
                     do{
-                        opcion = pedirInt(">", false);
+                        opcion = fInput.pedirInt(">", false);
                     }while(opcion < 1 || opcion > 2);
                     
                     switch(opcion){
                         case 1:
-                            List<Atributo> atrPersona = new ArrayList();
-                            atrPersona.add(new Atributo("private", "String", "nombre", false, false, true, true));
-                            atrPersona.add(new Atributo("private", "String", "apellidos", false, false, true, true));
-                            atrPersona.add(new Atributo("private", "int", "edad", false, false, true, true));
-                            atrPersona.add(new Atributo("private", "int", "telefono", false, false, true, true));
+                            HashMap<String, Atributo> atrPersona = new HashMap<>();
+                            atrPersona.put("nombre", new Atributo("private", "String", "nombre", false, false, true, true));
+                            atrPersona.put("apellidos", new Atributo("private", "String", "apellidos", false, false, true, true));
+                            atrPersona.put("apellidos", new Atributo("private", "int", "apellidos", false, false, true, true));
+                            atrPersona.put("telefono", new Atributo("private", "int", "telefono", false, false, true, true));
                             generarClase("Persona", atrPersona, true);
                             break;
                         case 2:
-                            List<Atributo> atrAnimal = new ArrayList();
-                            atrAnimal.add(new Atributo("private", "String", "nombre", false, false, true, true));
-                            atrAnimal.add(new Atributo("private", "String", "especie", false, false, true, true));
-                            atrAnimal.add(new Atributo("private", "String", "nombreCientifico", false, false, true, true));
-                            atrAnimal.add(new Atributo("private", "String", "alimentacion", false, false, true, true));
-                            atrAnimal.add(new Atributo("private", "String", "reproduccion", false, false, true, true));
+                            HashMap<String, Atributo> atrAnimal = new HashMap<>();
+                            atrAnimal.put("nombre", new Atributo("private", "String", "nombre", false, false, true, true));
+                            atrAnimal.put("especie", new Atributo("private", "String", "especie", false, false, true, true));
+                            atrAnimal.put("nombreCientifico", new Atributo("private", "String", "nombreCientifico", false, false, true, true));
+                            atrAnimal.put("alimentacion", new Atributo("private", "String", "alimentacion", false, false, true, true));
+                            atrAnimal.put("reproduccion", new Atributo("private", "String", "reproduccion", false, false, true, true));
                             generarClase("Animal", atrAnimal, true);
                     }
                     break;
@@ -347,7 +360,7 @@ public class FlojerasClassGeneratorAssistant extends FlojerasUtility{
                         
                         //Atributos
                         Element eAtributos = doc.createElement("atributos");
-                        for(Atributo attr : atributos){
+                        for(Atributo attr : atributos.values()){
                             if(attr != null){
                                 Element a = doc.createElement("atributo");
                                 Element eNombreAttr = doc.createElement("nombre");
@@ -410,7 +423,7 @@ public class FlojerasClassGeneratorAssistant extends FlojerasUtility{
                         System.out.printf("[%s] - " + archivo.getName() + "\n", i+1);
                     }
                     do{
-                        opcion = pedirInt(">", false);
+                        opcion = fInput.pedirInt(">", false);
                     }while(opcion < 1 || opcion > opciones.length);
                     opcion--;
                     
@@ -447,12 +460,12 @@ public class FlojerasClassGeneratorAssistant extends FlojerasUtility{
                                 }
                                 boolean tieneSetter = atributo.getElementsByTagName("tieneSetter").item(0) != null;
                                 boolean tieneGetter = atributo.getElementsByTagName("tieneGetter").item(0) != null;
-                                atributos.add(new Atributo(scopeAttr, tipoAttr, nombreAttr, esFinal, esStatic, tieneSetter, tieneGetter));
+                                atributos.put(nombreAttr, new Atributo(scopeAttr, tipoAttr, nombreAttr, esFinal, esStatic, tieneSetter, tieneGetter));
                             }
                             Element toString = (Element) raiz.getElementsByTagName("tieneToString").item(0);
                             tieneToString = toString != null;
                         } catch(Exception e) {
-                            e.printStackTrace(System.out);
+                            System.out.println("El archivo no es válido.");
                         }
                     }else{
                         System.out.println("Cancelado");
@@ -464,6 +477,7 @@ public class FlojerasClassGeneratorAssistant extends FlojerasUtility{
         }while(!terminado);
         
         System.out.println(TEXTO_VERDE + "Fin de la ejecución." + RESET_COLORES);
+        fInput.close();
     }
     
     private Atributo recuperarAtributo(List<Atributo> lista, Atributo proporcionado){
@@ -474,19 +488,34 @@ public class FlojerasClassGeneratorAssistant extends FlojerasUtility{
         return null;
     }
     
-    private void generarClase(String nombre, List<Atributo> atributos, boolean tieneToString){
+    private void generarClase(String nombre, HashMap<String, Atributo> atributos, boolean tieneToString){
         File clase = new File(nombre + ".java");
         try {
-            if(clase.createNewFile()){
-                System.out.println(TEXTO_VERDE + "Archivo " + clase.getName() + " creado en la ruta " + clase.getAbsolutePath() + RESET_COLORES);
+            FileWriter output = new FileWriter(clase);
+            boolean cancelado = false;
+            if(clase.exists()){
+                System.out.println("El archivo de la clase ya existe. ¿Desea sobreescribirlo? (S/N)");
+                do{
+                    char res = fInput.pedirLetra(">", true);
+                    if(res == 'S'){
+                        System.out.println("Sobreescribiendo...");
+                        break;
+                    }else if(res == 'N'){
+                        System.out.println("Cancelado.");
+                        cancelado = true;
+                        break;
+                    }
+                }while(true);
+                
+            }
+            if(clase.createNewFile()) System.out.println(TEXTO_VERDE + "Archivo " + clase.getName() + " creado en la ruta " + clase.getAbsolutePath() + RESET_COLORES);
 
-                FileWriter output = new FileWriter(clase);
-
+            if(!cancelado){
                 //Nombre de la clase
                 output.write("public class " + nombre + " {\n");
                 //Atributos
                 output.write("    //Atributos\n");
-                for(Atributo a : atributos){
+                for(Atributo a : atributos.values()){
                     //Modificadores de los atributos
                     String mods = " ";
                     HashMap<String, Boolean> modAux = a.modificadores;
@@ -501,7 +530,7 @@ public class FlojerasClassGeneratorAssistant extends FlojerasUtility{
                 //Constructor
                 output.write("\n    //Constructor");
                 output.write("\n    public " + nombre + "(");
-                for(Atributo a : atributos){
+                for(Atributo a : atributos.values()){
                     output.write(a.tipo + " " + a.nombre);
                     if(!a.equals(atributos.get(atributos.size() - 1))){
                         output.write(", ");
@@ -509,14 +538,14 @@ public class FlojerasClassGeneratorAssistant extends FlojerasUtility{
                 }
                 output.write("){\n");
                 String aux;
-                for(Atributo a : atributos){
+                for(Atributo a : atributos.values()){
                     aux = a.nombre;
                     output.write("        this." + aux + " = " + aux + ";\n");
                 }
                 output.write("    }\n");
                 //Getters y setters
                 output.write("\n    //Getters y setters");
-                for(Atributo a : atributos){
+                for(Atributo a : atributos.values()){
                     aux = a.nombre; //Facilita la vida cuando tienes que escribir mucho para referenciar algo xd
                     //Getter
                     if(a.tieneGetter){
@@ -534,10 +563,10 @@ public class FlojerasClassGeneratorAssistant extends FlojerasUtility{
                 if(tieneToString){
                     output.write("\n    @Override\n    public String toString(){\n");
                     output.write("        return \"" + nombre + "{\" + \"");
-                    for(Atributo a : atributos){
+                    for(Atributo a : atributos.values()){
                         aux = a.nombre;
                         output.write(aux + "=\" + " + aux);
-                        
+
                         if(!a.equals(atributos.get(atributos.size() - 1))){
                             output.write( " + \", ");
                         }
@@ -547,8 +576,6 @@ public class FlojerasClassGeneratorAssistant extends FlojerasUtility{
                 output.write("\n}"); //Final del archivo
                 output.close();
                 System.out.println(TEXTO_VERDE + "Archivo generado con éxito." + RESET_COLORES);
-            }else{
-                System.out.println(TEXTO_ROJO + "El archivo ya existe" + RESET_COLORES);
             }
         } catch (IOException ex) {
             System.out.println(TEXTO_ROJO + "Ha ocurrido un error." + RESET_COLORES);
