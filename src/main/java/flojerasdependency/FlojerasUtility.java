@@ -2,7 +2,6 @@ package flojerasdependency;
 
 import flojerasdependency.data.*;
 import java.util.Arrays;
-import java.util.Scanner;
 
 /*
     Flojeras Utility es un módulo que me he hecho a modo de hacer el trabajo más fácil, 
@@ -18,8 +17,7 @@ import java.util.Scanner;
 public class FlojerasUtility {
     //Atributos varios
     public static final String RESET_COLORES = "\u001B[0m";
-    public static Scanner sc = new Scanner(System.in, "ISO-8859-1");
-    
+
     //Colores para el texto de la consola
     public static final String TEXTO_NEGRO = "\u001B[30m";
     public static final String TEXTO_ROJO = "\u001B[31m";
@@ -66,160 +64,7 @@ public class FlojerasUtility {
     public static void print(Object o, String colorTexto, String colorFondo){
         System.out.println(colorTexto + colorFondo + o);
     }
-    
-    //MÉTODOS DE INPUT
-    /**
-     * Pide al usuario una cadena de texto. Si el parámetro de permitirContenidoVacio es falso, se preguntará al usuario 
-     * indefinidamente mientras no introduzca nada. Adicionalmente, se le puede pasar un String para que aparezca a la hora 
-     * de preguntar información al usuario, indicándole cuándo se requiere introducir información. Si se pasa un String vacío,
-     * no se mostrará nada.
-     * @param caracterInput Carácter
-     * @param permitirContenidoVacio Permitir no intoducir nada
-     * @return String
-     */
-    public static String pedirTexto(String caracterInput, boolean permitirContenidoVacio){
-        String respuesta;
-        
-        do{
-            if(!caracterInput.isEmpty()) System.out.print(caracterInput);
-            respuesta = sc.nextLine();
-        }while(respuesta.isEmpty() && !permitirContenidoVacio);
-        
-        return respuesta;
-    }
-    /**
-     * Pide un número entero al usuario. Si la opción de positivo es verdadera, el usuario tendrá que introducir
-     * de forma obligatoria un número positivo. Adicionalmente, se le puede pasar un String para que aparezca a la hora 
-     * de preguntar información al usuario, indicándole cuándo se requiere introducir información. Si se pasa un String vacío,
-     * no se mostrará nada.
-     * @param caracterInput Carácter
-     * @param positivo Indica si sólo se permiten números positivos
-     * @return int
-     */
-    public static int pedirInt(String caracterInput, boolean positivo){
-        int x;
-        
-        while(true){
-            if(!caracterInput.isEmpty()) System.out.print(caracterInput);
-            try {
-                x = sc.nextInt();
 
-                if(positivo){
-                    if(x < 0){
-                        System.out.println("El número debe de ser positivo");
-                    }else{
-                        break;
-                    }
-                }else{
-                    break;
-                }
-            } catch (Exception e) {
-                System.out.println("No se ha introducido un número válido.");
-                sc.nextLine();
-            }
-        }
-        
-        sc.nextLine(); //Limpio buffer por si después puede venir un String
-        return x;
-    }
-    /**
-     * Pide un float al usuario. Si la opción de positivo es verdadera, el usuario tendrá que introducir
-     * de forma obligatoria un número positivo. Adicionalmente, se le puede pasar un String para que aparezca a la hora 
-     * de preguntar información al usuario, indicándole cuándo se requiere introducir información. Si se pasa un String vacío,
-     * no se mostrará nada.
-     * @param caracterInput Carácter
-     * @param positivo Indica si sólo se permiten números positivos
-     * @return float
-     */
-    public static float pedirFloat(String caracterInput, boolean positivo){
-        float x;
-        
-        while(true){
-            if(!caracterInput.isEmpty()) System.out.print(caracterInput);
-            try {
-                x = sc.nextFloat();
-
-                if(positivo){
-                    if(x < 0){
-                        System.out.println("El número debe de ser positivo");
-                    }else{
-                        break;
-                    }
-                }else{
-                    break;
-                }
-            } catch (Exception e) {
-                System.out.println("No se ha introducido un número válido.");
-                sc.nextLine();
-            }
-        }
-        
-        sc.nextLine(); //Limpio buffer por si después puede venir un String
-        return x;
-    }
-    /**
-     * Pide un double al usuario. Si la opción de positivo es verdadera, el usuario tendrá que introducir
-     * de forma obligatoria un número positivo. Adicionalmente, se le puede pasar un String para que aparezca a la hora 
-     * de preguntar información al usuario, indicándole cuándo se requiere introducir información. Si se pasa un String vacío,
-     * no se mostrará nada.
-     * @param caracterInput Carácter
-     * @param positivo Indica si sólo se permiten números positivos
-     * @return double
-     */
-    public static double pedirDouble(String caracterInput, boolean positivo){
-        double x;
-        
-        while(true){
-            if(!caracterInput.isEmpty()) System.out.print(caracterInput);
-            try {
-                x = sc.nextDouble();
-
-                if(positivo){
-                    if(x < 0){
-                        System.out.println("El número debe de ser positivo");
-                    }else{
-                        break;
-                    }
-                }else{
-                    break;
-                }
-            } catch (Exception e) {
-                System.out.println("No se ha introducido un número válido.");
-                sc.nextLine();
-            }
-        }
-        
-        sc.nextLine(); //Limpio buffer por si después puede venir un String
-        return x;
-    }
-    /**
-     * Pide una letra al usuario. Si la opción de devolverMayus es verdadera, devolverá la letra
-     * en mayúscula. En caso contrario, la devolverá en minúscula. Adicionalmente, se le puede pasar un String para que aparezca a la hora 
-     * de preguntar información al usuario, indicándole cuándo se requiere introducir información. Si se pasa un String vacío,
-     * no se mostrará nada.
-     * @param caracterInput Carácter
-     * @param devolverMayus Devolver en mayúscula
-     * @return char
-     */
-    public static char pedirLetra(String caracterInput, boolean devolverMayus){
-        String input;
-        char c = '@'; //Valor basura porque sí
-        
-        do{
-            try {
-                input = pedirTexto(caracterInput, false);
-                if(devolverMayus){
-                    c = input.toUpperCase().charAt(0);
-                }else{
-                    c = input.toLowerCase().charAt(0);
-                }
-            } catch (Exception e) {
-                e.printStackTrace(System.out);
-            }
-        }while(c < 'A' || c > 'z');
-        
-        return c;
-    }
     
     //MÉTODOS MATEMÁTICOS
     /**
@@ -509,11 +354,11 @@ public class FlojerasUtility {
      */
     public static int[] devolverEspaciosRestantes(int[] arr){
         int espacios = 0;
-        
+
         for(Object o : arr){
             if(o == null) espacios++;
         }
-        
+
         int[] indices = new int[espacios];
         espacios = 0; //Reusar variable en vez de crear otra
         for(int i = 0; i < arr.length; i++){
@@ -533,11 +378,11 @@ public class FlojerasUtility {
      */
     public static int[] devolverEspaciosRestantes(float[] arr){
         int espacios = 0;
-        
+
         for(Object o : arr){
             if(o == null) espacios++;
         }
-        
+
         int[] indices = new int[espacios];
         espacios = 0; //Reusar variable en vez de crear otra
         for(int i = 0; i < arr.length; i++){
@@ -545,9 +390,9 @@ public class FlojerasUtility {
                 indices[espacios] = i;
                 espacios++;
             }
-            
+
         }
-        
+
         return indices;
     }
     /**
@@ -557,11 +402,11 @@ public class FlojerasUtility {
      */
     public static int[] devolverEspaciosRestantes(double[] arr){
         int espacios = 0;
-        
+
         for(Object o : arr){
             if(o == null) espacios++;
         }
-        
+
         int[] indices = new int[espacios];
         espacios = 0; //Reusar variable en vez de crear otra
         for(int i = 0; i < arr.length; i++){
@@ -569,9 +414,9 @@ public class FlojerasUtility {
                 indices[espacios] = i;
                 espacios++;
             }
-            
+
         }
-        
+
         return indices;
     }
     /**
@@ -581,11 +426,11 @@ public class FlojerasUtility {
      */
     public static int[] devolverEspaciosRestantes(Object[] arr){
         int espacios = 0;
-        
+
         for(Object o : arr){
             if(o == null) espacios++;
         }
-        
+
         int[] indices = new int[espacios];
         espacios = 0; //Reusar variable en vez de crear otra
         for(int i = 0; i < arr.length; i++){
@@ -593,9 +438,9 @@ public class FlojerasUtility {
                 indices[espacios] = i;
                 espacios++;
             }
-            
+
         }
-        
+
         return indices;
     }
     /**
@@ -605,11 +450,11 @@ public class FlojerasUtility {
      */
     public static int devolverNumEspaciosOcupados(int[] arr){
         int espacios = 0;
-        
+
         for(int o : arr){
             if(o != 0) espacios++;
         }
-        
+
         return espacios;
     }
     /**
@@ -619,11 +464,11 @@ public class FlojerasUtility {
      */
     public static int devolverNumEspaciosOcupados(float[] arr){
         int espacios = 0;
-        
+
         for(float o : arr){
             if(o != 0) espacios++;
         }
-        
+
         return espacios;
     }
     /**
@@ -633,11 +478,11 @@ public class FlojerasUtility {
      */
     public static int devolverNumEspaciosOcupados(double[] arr){
         int espacios = 0;
-        
+
         for(double o : arr){
             if(o != 0) espacios++;
         }
-        
+
         return espacios;
     }
     /**
@@ -647,11 +492,11 @@ public class FlojerasUtility {
      */
     public static int devolverNumEspaciosOcupados(Object[] arr){
         int espacios = 0;
-        
+
         for(Object o : arr){
             if(o != null) espacios++;
         }
-        
+
         return espacios;
     }
     /**
